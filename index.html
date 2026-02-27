@@ -224,9 +224,7 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-      .search-bar-wrapper.active {
-        width: 200px;
-      }
+
 
       .toast-notification {
         left: 30px;
@@ -237,13 +235,239 @@
       .search-results-grid {
         padding: 20px;
       }
+
+      .footer-main {
+        text-align: center;
+      }
+
+      .footer-newsletter form {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .footer-input {
+        width: 100% !important;
+      }
+
+      .btn-footer {
+        width: 320px;
+        margin: 0px !important;
+      }
+
+
+      .auren-footer .footer-main .row>div {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: center;
+      }
+
+      /* Center headings */
+      .auren-footer .footer-heading {
+        margin-top: 20px;
+      }
+
+      /* Make links vertical & centered */
+      .auren-footer .footer-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .auren-footer .footer-links li {
+        margin: 0;
+      }
+
+      /* Center brand description */
+      .footer-description {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      /* ===========================
+   MOBILE SEARCH FIX
+=========================== */
+      @media (max-width: 768px) {
+
+        .search-container {
+          position: static;
+        }
+
+        .search-bar-wrapper {
+          position: fixed;
+          top: 72px;
+          /* Navbar height */
+          left: 0;
+          right: 0;
+          width: 100%;
+          transform: translateY(-20px);
+          opacity: 0;
+          border-radius: 0;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+          transition: all 0.3s ease;
+        }
+
+        .search-bar-wrapper.active {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .search-input-nav {
+          width: 100%;  
+          /* max-width: 600px; */
+          /* Remove this line */
+          padding: 14px 18px;
+          font-size: 16px;
+          border: none;
+          border-bottom: 2px solid var(--soft-gold);
+          text-align: center;
+        }
+
+      }
+
+    }
+
+    @media (max-width: 991px) {
+      .auren-navbar .navbar-collapse {
+        background: #fff;
+        padding: 20px;
+      }
+
+      .auren-navbar .navbar-nav {
+        gap: 12px !important;
+      }
+
+      .auren-navbar .nav-link {
+        font-size: 14px;
+      }
+
+      .signature-section .row:first-child {
+        text-align: center;
+      }
+
+      .signature-section .signature-img-large {
+        margin-bottom: 20px;
+      }
+
+      .editorial-content {
+        padding-left: 0;
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .story-heading {
+        font-size: 28px;
+      }
+
+      .story-text {
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-text {
+        padding: 0 20px !important;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 28px;
+      }
+
+      .hero-text p {
+        font-size: 14px;
+      }
+
+      .ctas {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .ctas a {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .collection-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .collection-grid .card img {
+        height: 300px;
+        object-fit: cover;
+      }
+
+    }
+
+    @media (max-width: 576px) {
+      .product-card {
+        text-align: center;
+      }
+
+      .product-title {
+        font-size: 14px;
+      }
+
+      .product-price {
+        font-size: 14px;
+      }
+
+      .story-heading {
+        font-size: 24px;
+      }
+
+      .story-text {
+        font-size: 14px;
+      }
+
+      .story-label {
+        font-size: 12px;
+        letter-spacing: 1px;
+      }
+
+      .story-cta {
+        display: inline-block;
+        margin-top: 15px;
+      }
+
+      .story-img {
+        height: 320px;
+        object-fit: cover;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .footer-logo {
+        font-size: 20px;
+      }
+
+      .footer-links a {
+        font-size: 13px;
+      }
+
+      .footer-copy {
+        font-size: 12px;
+      }
+
+      .footer-description {
+        margin: auto;
+      }
     }
   </style>
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
-    <div class="container-fluid px-5">
+    <div class="container-fluid px-3 px-md-4 px-lg-5">
       <!-- Logo -->
       <a class="navbar-brand fw-bold pe-5" href="index.html">
         AUREN
@@ -475,14 +699,17 @@
       <div class="container">
         <h2 class="text-start mb-5 section-title">The Story</h2>
 
-        <div class="row align-items-center mb-5 g-0">
-          <div class="col-lg-6 col-md-6 col-12">
+        <div class="row align-items-center g-5">
+
+          <!-- Image -->
+          <div class="col-lg-6 order-1 order-lg-1">
             <div class="editorial-img">
-              <img src="assets/img/editotial.jpg" class="img-fluid product-img" alt="Editorial">
+              <img src="assets/img/editotial.jpg" class="img-fluid w-100 story-img" alt="Editorial">
             </div>
           </div>
 
-          <div class="col-lg-6 col-md-6 col-12">
+          <!-- Content -->
+          <div class="col-lg-6 order-2 order-lg-2">
             <div class="editorial-content">
               <span class="story-label">CRAFTED WITH INTENTION</span>
               <h3 class="story-heading">Where Form Meets Purpose</h3>
@@ -497,6 +724,7 @@
               </a>
             </div>
           </div>
+
         </div>
       </div>
     </section>

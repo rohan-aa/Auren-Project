@@ -502,7 +502,7 @@ body {
   height: 100%;
 }
 
-.story-cta:hover{
+.story-cta:hover {
   color: var(--ivory-mist) !important;
   font-weight: normal; /* deep emerald text */
 }
@@ -728,4 +728,240 @@ body {
   font-size: 12px;
   color: var(--stone-gray);
   letter-spacing: 1px;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .add-cart-btn {
+    height: 44px;
+  }
+  .toast-notification {
+    left: 30px;
+    right: 30px;
+    text-align: center;
+  }
+
+  .search-results-grid {
+    padding: 20px;
+  }
+
+  .footer-main {
+    text-align: center;
+  }
+
+  .footer-newsletter form {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .footer-input {
+    width: 100% !important;
+  }
+
+  .btn-footer {
+    width: 320px;
+    margin: 0px !important;
+  }
+
+  .auren-footer .footer-main .row > div {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  /* Center headings */
+  .auren-footer .footer-heading {
+    margin-top: 20px;
+  }
+
+  /* Make links vertical & centered */
+  .auren-footer .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .auren-footer .footer-links li {
+    margin: 0;
+  }
+
+  /* Center brand description */
+  .footer-description {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* ===========================
+   MOBILE SEARCH FIX
+=========================== */
+  @media (max-width: 768px) {
+    .search-container {
+      position: static;
+    }
+
+    .search-bar-wrapper {
+      position: fixed;
+      top: 72px;
+      /* Navbar height */
+      left: 0;
+      right: 0;
+      width: 100%;
+      transform: translateY(-20px);
+      opacity: 0;
+      border-radius: 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .search-bar-wrapper.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .search-input-nav {
+      width: 100%;
+      /* max-width: 600px; */
+      /* Remove this line */
+      padding: 14px 18px;
+      font-size: 16px;
+      border: none;
+      border-bottom: 2px solid var(--soft-gold);
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .auren-navbar .navbar-collapse {
+    background: #fff;
+    padding: 20px;
+  }
+
+  .auren-navbar .navbar-nav {
+    gap: 12px !important;
+  }
+
+  .auren-navbar .nav-link {
+    font-size: 14px;
+  }
+
+  .signature-section .row:first-child {
+    text-align: center;
+  }
+
+  .signature-section .signature-img-large {
+    margin-bottom: 20px;
+  }
+
+  .editorial-content {
+    padding-left: 0;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .story-heading {
+    font-size: 28px;
+  }
+
+  .story-text {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-text {
+    padding: 0 20px !important;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-text p {
+    font-size: 14px;
+  }
+
+  .ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ctas a {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .collection-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .collection-grid .card img {
+    height: 300px;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-card {
+    text-align: center;
+  }
+
+  .product-title {
+    font-size: 14px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
+
+  .story-heading {
+    font-size: 24px;
+  }
+
+  .story-text {
+    font-size: 14px;
+  }
+
+  .story-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .story-cta {
+    display: inline-block;
+    margin-top: 15px;
+  }
+
+  .story-img {
+    height: 320px;
+    object-fit: cover;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .footer-logo {
+    font-size: 20px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+  }
+
+  .footer-description {
+    margin: auto;
+  }
 }
