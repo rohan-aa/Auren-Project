@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auren | Luxury with presence</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <!-- Fix: Use correct Font Awesome version -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="global.js"></script>
+
+  <!-- Additional styles for new features -->
+  <style>
+    /* Search Bar Animation */
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar-wrapper {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: right;
+      width: 0;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .search-bar-wrapper.active {
+      width: 300px;
+      opacity: 1;
+      transform: translateY(-50%) scaleX(1);
+    }
+
+    .search-input-nav {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid var(--soft-gold);
+
+      font-size: 14px;
+      outline: none;
+      background: white;
+      color: var(--black-graphite);
+    }
+
+    .search-input-nav:focus {
+      border-color: var(--deep-olive);
+    }
+
+    /* Search Results Grid */
+    .search-results-grid {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: var(--ivory-mist);
+      z-index: 9999;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: none;
+      border-bottom: 2px solid var(--soft-gold);
+    }
+
+    .search-results-grid.show {
+      display: block;
+    }
+
+    .search-results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--warm-sand);
+    }
+
+    .search-results-header h3 {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+    }
+
+    .close-search-results {
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--stone-gray);
+      transition: color 0.3s ease;
+    }
+
+    .close-search-results:hover {
+      color: var(--soft-gold);
+    }
+
+    .search-results-count {
+      color: var(--stone-gray);
+      font-size: 14px;
+      margin-left: 15px;
+    }
+
+    .search-product-card {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .search-product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .search-product-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+
+      transition: transform 0.6s ease;
+    }
+
+    .search-product-card:hover img {
+      transform: scale(1.02);
+    }
+
+    .search-product-info {
+      padding: 12px 0;
+    }
+
+    .search-product-info h6 {
+      margin: 0 0 5px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .search-product-info p {
+      margin: 0;
+      color: var(--soft-gold);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .search-product-info .old-price {
+      text-decoration: line-through;
+      color: var(--stone-gray);
+      font-size: 12px;
+      margin-left: 6px;
+      font-weight: 400;
+    }
+
+    .search-product-info .discount-badge {
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    /* Toast Notification */
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--black-graphite);
+      color: var(--ivory-mist);
+      padding: 14px 28px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      border: 1px solid var(--soft-gold);
+    }
+
+    .toast-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-notification i {
+      color: var(--soft-gold);
+      font-size: 20px;
+    }
+
+    /* Product Card Clickable */
+    .product-card {
+      cursor: pointer;
+    }
+
+    /* Navbar Icons */
+    .navbar .fa-solid,
+    .navbar .fa-regular {
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .navbar .fa-solid:hover,
+    .navbar .fa-regular:hover {
+      color: var(--soft-gold);
+    }
+
+    /* Collection Cards Clickable */
+    .collection-grid .card {
+      cursor: pointer;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .search-bar-wrapper.active {
+        width: 200px;
+      }
+
+      .toast-notification {
+        left: 30px;
+        right: 30px;
+        text-align: center;
+      }
+
+      .search-results-grid {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
+    <div class="container-fluid px-5">
+      <!-- Logo -->
+      <a class="navbar-brand fw-bold pe-5" href="index.html">
+        AUREN
+      </a>
+
+      <!-- Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#aurenNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Center Menu -->
+      <div class="collapse navbar-collapse justify-content-start" id="aurenNavbar">
+        <ul class="navbar-nav gap-4">
+          <li class="nav-item"><a class="nav-link" href="women.html">Women</a></li>
+          <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
+          <li class="nav-item"><a class="nav-link" href="accessories.html">Accessories</a></li>
+          <li class="nav-item"><a class="nav-link" href="newin.html">New In</a></li>
+          <li class="nav-item"><a class="nav-link" href="sale.html">Sale</a></li>
+        </ul>
+      </div>
+
+      <!-- Right Icons with Functionality -->
+      <div class="d-flex align-items-center gap-4">
+        <div class="search-container position-relative">
+          <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
+          <div class="search-bar-wrapper" id="searchBarWrapper">
+            <input type="text" class="search-input-nav" id="searchInputNav" placeholder="Search products...">
+          </div>
+        </div>
+        <a href="account.html" class="text-dark">
+          <i class="fa-regular fa-user" id="userIcon" style="cursor: pointer;"></i>
+        </a>
+        <a href="wishlist.html" class="position-relative text-dark">
+          <i class="bi bi-heart fs-5"></i>
+          <span class="wishlist-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+            0
+          </span>
+        </a>
+        <a href="cart.html" class="position-relative text-dark">
+          <i class="fa-solid fa-bag-shopping fs-5"></i>
+          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+            0
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Results Grid -->
+  <div class="search-results-grid" id="searchResultsGrid">
+    <div class="container">
+      <div class="search-results-header">
+        <div>
+          <h3>Search Results</h3>
+          <span class="search-results-count" id="searchResultsCount">0 products found</span>
+        </div>
+        <span class="close-search-results" id="closeSearchResults">&times;</span>
+      </div>
+      <div class="row g-4" id="searchResultsContainer">
+        <!-- Search results will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="auren-hero">
+      <div id="aurenHeroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
+        data-bs-wrap="true" data-bs-pause="false">
+        <div class="carousel-inner">
+          <!-- Slide 1 -->
+          <div class="carousel-item active">
+            <div class="hero-slide" style="background-image: url('assets/img/hero.jpg');"></div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="carousel-item">
+            <div class="hero-slide" style="background-image: url('assets/img/c2.jpg');"></div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="carousel-item">
+            <div class="hero-slide" style="background-image: url('assets/img/c3.jpg');"></div>
+          </div>
+          <!-- Slide 4 -->
+          <div class="carousel-item">
+            <div class="hero-slide" style="background-image: url('assets/img/c4.jpg');"></div>
+          </div>
+        </div>
+
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#aurenHeroCarousel" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#aurenHeroCarousel" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#aurenHeroCarousel" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#aurenHeroCarousel" data-bs-slide-to="3"></button>
+        </div>
+
+        <!-- Overlay Content -->
+        <div class="hero-text px-5">
+          <h1 class="mb-3 hero-title">Luxury with presence</h1>
+          <p class="mb-5">Luxury essentials shaped by form, fabric, and feeling.</p>
+          <div class="ctas">
+            <a href="newin.html" class="btn-primary">New Arrivals</a>
+            <a href="explore.html" class="btn-secondary">Explore Collection</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="collection py-5" id="collection">
+      <div class="container">
+        <h2 class="text-start mb-5 section-title">The Collection</h2>
+
+        <div class="row align-items-center mb-5 g-0">
+          <div class="collection-grid">
+            <!-- Women Card -->
+            <div class="card women" onclick="window.location.href='women.html'">
+              <img src="assets/img/women.jpg" alt="Women Collection">
+              <div class="label">WOMEN</div>
+            </div>
+
+            <!-- Men Card -->
+            <div class="card men" onclick="window.location.href='men.html'">
+              <img src="assets/img/men.jpg" alt="Men Collection">
+              <div class="label">MEN</div>
+            </div>
+
+            <!-- Accessories Card -->
+            <div class="card accessories" onclick="window.location.href='accessories.html'">
+              <img src="assets/img/accesories.jpg" alt="Accessories Collection">
+              <div class="label">ACCESSORIES</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="edit py-5" id="edit">
+      <div class="container">
+        <div class="section-header d-flex justify-content-between align-items-center">
+          <h2 class="text-start mb-5 section-title">The Edit</h2>
+          <a href="explore.html" class="btn-luxury mb-5">View All <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="row g-5">
+          <!-- Product 1 - Tailored Beige Blazer -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home1" data-product-name="Tailored Beige Blazer"
+              data-product-price="8900" data-product-image="assets/img/p1.jpg">
+              <img src="assets/img/p1.jpg" class="img-fluid product-img" alt="Tailored Beige Blazer">
+              <h6 class="mt-3 product-title">Tailored Beige Blazer</h6>
+              <p class="product-price">₹8,900</p>
+            </div>
+          </div>
+
+          <!-- Product 2 - Black Evening Dress -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home2" data-product-name="Black Evening Dress"
+              data-product-price="12500" data-product-image="assets/img/p2.jpg">
+              <img src="assets/img/p2.jpg" class="img-fluid product-img" alt="Black Evening Dress">
+              <h6 class="mt-3 product-title">Black Evening Dress</h6>
+              <p class="product-price">₹12,500</p>
+            </div>
+          </div>
+
+          <!-- Product 3 - Deep Olive Set -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home3" data-product-name="Deep Olive Set"
+              data-product-price="7200" data-product-image="assets/img/p3.jpg">
+              <img src="assets/img/p3.jpg" class="img-fluid product-img" alt="Deep Olive Set">
+              <h6 class="mt-3 product-title">Deep Olive Set</h6>
+              <p class="product-price">₹7,200</p>
+            </div>
+          </div>
+
+          <!-- Product 4 - Minimal Handbag -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home4" data-product-name="Minimal Handbag"
+              data-product-price="5400" data-product-image="assets/img/p4.jpg">
+              <img src="assets/img/p4.jpg" class="img-fluid product-img" alt="Minimal Handbag">
+              <h6 class="mt-3 product-title">Minimal Handbag</h6>
+              <p class="product-price">₹5,400</p>
+            </div>
+          </div>
+
+          <!-- Product 5 - Charcoal Minimalist Suit -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home5" data-product-name="Charcoal Minimalist Suit"
+              data-product-price="18400" data-product-image="assets/img/p5.jpg">
+              <img src="assets/img/p5.jpg" class="img-fluid product-img" alt="Charcoal Minimalist Suit">
+              <h6 class="mt-3 product-title">Charcoal Minimalist Suit</h6>
+              <p class="product-price">₹18,400</p>
+            </div>
+          </div>
+
+          <!-- Product 6 - Stone Gray Knit & Relaxed Pants -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home6" data-product-name="Stone Gray Knit & Relaxed Pants"
+              data-product-price="9300" data-product-image="assets/img/p6.jpg">
+              <img src="assets/img/p6.jpg" class="img-fluid product-img" alt="Stone Gray Knit">
+              <h6 class="mt-3 product-title">Stone Gray Knit & Relaxed Pants</h6>
+              <p class="product-price">₹9,300</p>
+            </div>
+          </div>
+
+          <!-- Product 7 - Bronze Leather Belt -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home7" data-product-name="Bronze Leather Belt"
+              data-product-price="4500" data-product-image="assets/img/p7.jpg">
+              <img src="assets/img/p7.jpg" class="img-fluid product-img" alt="Bronze Leather Belt">
+              <h6 class="mt-3 product-title">Bronze Leather Belt</h6>
+              <p class="product-price">₹4,500</p>
+            </div>
+          </div>
+
+          <!-- Product 8 - Deep Olive Long Structured Coat -->
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="product-card" data-product-id="home8" data-product-name="Deep Olive Long Structured Coat"
+              data-product-price="22000" data-product-image="assets/img/p8.jpg">
+              <img src="assets/img/p8.jpg" class="img-fluid product-img" alt="Deep Olive Coat">
+              <h6 class="mt-3 product-title">Deep Olive Long Structured Coat</h6>
+              <p class="product-price">₹22,000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="story py-5" id="story">
+      <div class="container">
+        <h2 class="text-start mb-5 section-title">The Story</h2>
+
+        <div class="row align-items-center mb-5 g-0">
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="editorial-img">
+              <img src="assets/img/editotial.jpg" class="img-fluid product-img" alt="Editorial">
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="editorial-content">
+              <span class="story-label">CRAFTED WITH INTENTION</span>
+              <h3 class="story-heading">Where Form Meets Purpose</h3>
+              <p class="story-text">
+                At AUREN, every silhouette begins with clarity and purpose.
+                We create timeless essentials shaped by refined tailoring
+                and elevated materials — designed to move effortlessly through seasons.
+                Luxury, for us, is defined by quiet confidence and enduring form.
+              </p>
+              <a href="contact.html" class="story-cta">
+                Discover More <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="brand-video">
+      <div class="container text-center">
+        <span class="video-label">BRAND FILM</span>
+        <h2 class="video-title">A Story in Motion</h2>
+        <p class="video-subtext">
+          Experience the craftsmanship, textures, and silhouettes that define AUREN.
+        </p>
+      </div>
+
+      <div class="video-wrapper">
+        <video autoplay muted loop playsinline>
+          <source src="assets/video/brand-video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>
+
+    <!-- SIGNATURE SECTION -->
+    <section class="signature-section py-5">
+      <div class="container">
+        <!-- FIRST ROW -->
+        <div class="row align-items-center g-5 mb-5">
+          <!-- Large Image -->
+          <div class="col-lg-7">
+            <img src="assets/img/signature_section.jpg" alt="Signature Tailoring"
+              class="img-fluid w-100 signature-img-large">
+          </div>
+
+          <!-- Content -->
+          <div class="col-lg-5">
+            <p class="signature-label text-uppercase mb-3">The Signatures</p>
+            <h2 class="signature-heading mb-4">Precision in Every Line</h2>
+            <p class="signature-text mb-4">
+              Designed with clarity. Tailored with restraint.
+              Every silhouette is shaped by form, balance, and intention.
+            </p>
+            <a href="craft.html" class="btn btn-signature px-4 py-2">
+              Explore Craft <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- SECOND ROW -->
+        <div class="row g-4 mt-3">
+          <div class="col-md-6 col-lg-6">
+            <img src="assets/img/s2.jpg" alt="Detail View" class="img-fluid w-100 signature-img-small">
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <img src="assets/img/s3.jpg" alt="Fabric Detail" class="img-fluid w-100 signature-img-small">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="auren-footer">
+    <div class="footer-newsletter text-center">
+      <div class="container">
+        <h3 class="footer-news-title mb-3">Join the AUREN Journal</h3>
+        <p class="footer-news-text mb-4">
+          Receive early access to collections and refined updates.
+        </p>
+        <form class="d-flex justify-content-center" id="newsletterForm">
+          <input type="email" class="form-control footer-input" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-footer ms-2">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-main">
+      <div class="container">
+        <div class="row gy-5">
+          <div class="col-lg-4">
+            <h5 class="footer-logo">Auren</h5>
+            <p class="footer-description">
+              Crafted with intention. Designed for quiet confidence.
+            </p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6 class="footer-heading">Shop</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="women.html">Women</a></li>
+              <li><a href="men.html">Men</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="newin.html">New In</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Support</h6>
+            <ul class="footer-links list list-unstyled">
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="#">Shipping & Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Sustainability</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom text-center">
+      <div class="container">
+        <p class="mb-0">&copy; 2026 AUREN. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

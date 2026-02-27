@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Women | Auren</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <!-- Fix: Use correct Font Awesome version -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    /* Same styles as sale page */
+    .filter-box {
+      padding: 24px;
+      border: 1px solid var(--soft-gold);
+      background: var(--ivory-mist);
+    }
+
+    .filter-group input[type="checkbox"] {
+      accent-color: var(--soft-gold);
+      cursor: pointer;
+    }
+
+    .filter-title {
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      margin-bottom: 25px;
+    }
+
+    .filter-group h6 {
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    .filter-group ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .filter-group li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .product-card {
+      background: var(--ivory-mist);
+      border-radius: 0px !important;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-img {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 0px !important;
+    }
+
+    .product-img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transition: 0.4s ease;
+    }
+
+    .product-card:hover .product-img::after {
+      opacity: 1;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .wishlist-btn i {
+      font-size: 20px;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: 0.3s ease;
+    }
+
+    .wishlist-btn:hover i {
+      color: var(--soft-gold);
+      transform: scale(1.2);
+    }
+
+    .product-info {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-info h6 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .product-info p {
+      margin: 0;
+      color: var(--soft-gold);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      font-size: 12px;
+      /* Smaller than main price */
+      color: var(--stone-gray);
+      /* Light grey brand color */
+      font-weight: 400;
+      /* Lighter weight */
+      margin-left: 4px;
+    }
+
+    /* If you want even more subtle, you can add this */
+    .old-price::before {
+      content: " ";
+      font-size: 10px;
+      color: var(--stone-gray);
+      opacity: 0.7;
+      margin-right: 2px;
+    }
+
+    .add-cart-btn {
+      background: var(--black-graphite);
+      color: var(--ivory-mist);
+      border: none;
+      padding: 6px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 20;
+      position: relative;
+    }
+
+    .add-cart-btn:hover {
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+    }
+
+    .pagination {
+      gap: 10px;
+    }
+
+    .pagination .page-link {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--soft-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--black-graphite);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+
+    .pagination .page-link:hover {
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+      transform: translateY(-3px);
+    }
+
+    .pagination .page-item.active .page-link {
+      background: var(--soft-gold);
+      border-color: var(--soft-gold);
+      color: var(--black-graphite);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .pagination .page-link:focus {
+      box-shadow: none;
+    }
+
+    .auren-toolbar {
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--warm-sand);
+    }
+
+    .auren-btn-clear {
+      position: relative;
+      background: transparent;
+      border: 1px solid var(--stone-gray);
+      color: var(--black-graphite);
+      padding: 8px 18px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      overflow: hidden;
+      display: inline-block;
+      z-index: 0;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Fill layer */
+    .auren-btn-clear::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--deep-olive);
+      transform: translateY(100%);
+      transition: transform 0.35s ease;
+      z-index: -1;
+    }
+
+    /* Hover animation */
+    .auren-btn-clear:hover::before {
+      transform: translateY(0%);
+    }
+
+    .auren-btn-clear:hover {
+      color: var(--ivory-mist);
+      border-color: var(--deep-olive);
+    }
+
+    .auren-sort {
+      background-color: var(--ivory-mist);
+      border: 1px solid var(--warm-sand);
+      color: var(--black-graphite);
+      padding: 8px 18px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 170px;
+    }
+
+    .auren-sort:focus {
+      outline: none;
+      border-color: var(--soft-gold);
+      box-shadow: 0 0 0 2px rgba(196, 166, 111, 0.2);
+    }
+
+    .page-hero {
+      background: var(--ivory-mist);
+      padding: 60px 0 30px;
+    }
+
+    .page-title {
+      font-family: "Playfair Display", serif;
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .page-hero p {
+      color: var(--stone-gray);
+      letter-spacing: 1px;
+    }
+
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--black-graphite);
+      color: var(--ivory-mist);
+      padding: 12px 24px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      border: 1px solid var(--soft-gold);
+    }
+
+    .toast-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-notification i {
+      color: var(--soft-gold);
+      font-size: 20px;
+    }
+
+    /* Search Bar Animation */
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar-wrapper {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: right;
+      width: 0;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .search-bar-wrapper.active {
+      width: 300px;
+      opacity: 1;
+      transform: translateY(-50%) scaleX(1);
+    }
+
+    .search-input-nav {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid var(--soft-gold);
+      font-size: 14px;
+      outline: none;
+      background: white;
+      color: var(--black-graphite);
+    }
+
+    .search-input-nav:focus {
+      border-color: var(--deep-olive);
+    }
+
+    /* Search Results Grid */
+    .search-results-grid {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: var(--ivory-mist);
+      z-index: 9999;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: none;
+      border-bottom: 2px solid var(--soft-gold);
+    }
+
+    .search-results-grid.show {
+      display: block;
+    }
+
+    .search-results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--warm-sand);
+    }
+
+    .search-results-header h3 {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+    }
+
+    .close-search-results {
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--stone-gray);
+      transition: color 0.3s ease;
+    }
+
+    .close-search-results:hover {
+      color: var(--soft-gold);
+    }
+
+    .search-results-count {
+      color: var(--stone-gray);
+      font-size: 14px;
+      margin-left: 15px;
+    }
+
+    .search-product-card {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .search-product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .search-product-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.6s ease;
+    }
+
+    .search-product-card:hover img {
+      transform: scale(1.02);
+    }
+
+    .search-product-info {
+      padding: 12px 0;
+    }
+
+    .search-product-info h6 {
+      margin: 0 0 5px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .search-product-info p {
+      margin: 0;
+      color: var(--soft-gold);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .search-product-info .old-price {
+      text-decoration: line-through;
+      color: var(--stone-gray);
+      font-size: 12px;
+      margin-left: 6px;
+      font-weight: 400;
+    }
+
+    .search-product-info .discount-badge {
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .search-bar-wrapper.active {
+        width: 200px;
+      }
+
+      .toast-notification {
+        left: 30px;
+        right: 30px;
+        text-align: center;
+      }
+
+      .search-results-grid {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
+    <div class="container-fluid px-5">
+      <!-- Logo -->
+      <a class="navbar-brand fw-bold pe-5" href="index.html">
+        AUREN
+      </a>
+
+      <!-- Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#aurenNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Center Menu -->
+      <div class="collapse navbar-collapse justify-content-start" id="aurenNavbar">
+        <ul class="navbar-nav gap-4">
+          <li class="nav-item"><a class="nav-link active" href="women.html">Women</a></li>
+          <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
+          <li class="nav-item"><a class="nav-link" href="accessories.html">Accessories</a></li>
+          <li class="nav-item"><a class="nav-link" href="newin.html">New In</a></li>
+          <li class="nav-item"><a class="nav-link" href="sale.html">Sale</a></li>
+        </ul>
+      </div>
+
+      <!-- Right Icons with Search and User Functionality -->
+      <div class="d-flex align-items-center gap-4">
+        <div class="search-container position-relative">
+          <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
+          <div class="search-bar-wrapper" id="searchBarWrapper">
+            <input type="text" class="search-input-nav" id="searchInputNav" placeholder="Search products...">
+          </div>
+        </div>
+        <a href="account.html" class="text-dark">
+          <i class="fa-regular fa-user"></i>
+        </a>
+        <a href="wishlist.html" class="position-relative text-dark">
+          <i class="bi bi-heart fs-5"></i>
+          <span class="wishlist-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+            0
+          </span>
+        </a>
+        <a href="cart.html" class="position-relative text-dark">
+          <i class="fa-solid fa-bag-shopping fs-5"></i>
+          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+            0
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Results Grid -->
+  <div class="search-results-grid" id="searchResultsGrid">
+    <div class="container">
+      <div class="search-results-header">
+        <div>
+          <h3>Search Results</h3>
+          <span class="search-results-count" id="searchResultsCount">0 products found</span>
+        </div>
+        <span class="close-search-results" id="closeSearchResults">&times;</span>
+      </div>
+      <div class="row g-4" id="searchResultsContainer">
+        <!-- Search results will be populated here -->
+      </div>
+    </div>
+  </div>
+  <main>
+    <section class="page-hero">
+      <div class="container text-center">
+        <h1 class="page-title">Women</h1>
+        <p>Refined essentials designed with presence.</p>
+      </div>
+    </section>
+
+    <section class="product-listing py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 mb-4">
+            <div class="filter-box">
+              <h5 class="filter-title">Filters</h5>
+              <div class="filter-group">
+                <h6>Category</h6>
+                <ul>
+                  <li><input type="checkbox" class="category-filter" value="blazer">Blazers</li>
+                  <li><input type="checkbox" class="category-filter" value="dress">Dresses</li>
+                  <li><input type="checkbox" class="category-filter" value="trousers">Trousers</li>
+                  <li><input type="checkbox" class="category-filter" value="outerwear">Outerwear</li>
+                </ul>
+              </div>
+              <div class="filter-group mt-4">
+                <h6>Price</h6>
+                <ul>
+                  <li><input type="checkbox" class="price-filter" value="0-9999">₹0 - ₹9,999</li>
+                  <li><input type="checkbox" class="price-filter" value="10000-14999">₹10,000 - ₹14,999</li>
+                  <li><input type="checkbox" class="price-filter" value="15000-999999">₹15,000+</li>
+                </ul>
+              </div>
+              <div class="filter-group mt-4">
+                <h6>Size</h6>
+                <ul>
+                  <li><input type="checkbox" class="size-filter" value="S">S</li>
+                  <li><input type="checkbox" class="size-filter" value="M">M</li>
+                  <li><input type="checkbox" class="size-filter" value="L">L</li>
+                  <li><input type="checkbox" class="size-filter" value="XL">XL</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4 auren-toolbar">
+              <button id="clearFilters" class="auren-btn-clear">
+                Clear All
+              </button>
+              <select id="sortPrice" class="auren-sort">
+                <option value="">Sort By</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+              </select>
+            </div>
+
+            <div class="row g-4" id="productContainer">
+              <!-- Women Products -->
+              <div class="col-md-6 col-lg-3 product-col" data-id="w1" data-price="12990" data-old-price="18990"
+                data-main="women" data-category="blazer" data-size="S,M,L">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/olive_blazer.jpg" alt="Structured Blazer" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Structured Blazer</h6>
+                    <p>
+                      ₹12,990
+                      <span class="old-price">₹18,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w2" data-price="8490" data-old-price="11990"
+                data-main="women" data-category="trousers" data-size="S,M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/ivory_trousers.jpg" alt="Ivory Trousers" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Ivory Trousers</h6>
+                    <p>
+                      ₹8,490
+                      <span class="old-price">₹11,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w3" data-price="18990" data-old-price="24990"
+                data-main="women" data-category="outerwear" data-size="S,M,L">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/sand_coat.jpg" alt="Sand Tailored Coat" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Sand Tailored Coat</h6>
+                    <p>
+                      ₹18,990
+                      <span class="old-price">₹24,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w4" data-price="11490" data-old-price="15990"
+                data-main="women" data-category="dress" data-size="S,M">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/midi_dress.jpg" alt="Graphite Midi Dress" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Graphite Midi Dress</h6>
+                    <p>
+                      ₹11,490
+                      <span class="old-price">₹15,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w5" data-price="7990" data-old-price="10990"
+                data-main="women" data-category="outerwear" data-size="M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/silk_blouse.jpg" alt="Olive Silk Blouse" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Olive Silk Blouse</h6>
+                    <p>
+                      ₹7,990
+                      <span class="old-price">₹10,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w6" data-price="10990" data-old-price="14990"
+                data-main="women" data-category="dress" data-size="S,M">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/beige_knit set.jpg" alt="Beige Knit Set" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Beige Knit Set</h6>
+                    <p>
+                      ₹10,990
+                      <span class="old-price">₹14,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w7" data-price="6490" data-old-price="8990"
+                data-main="women" data-category="outerwear" data-size="S,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/ivory_shirt.jpg" alt="Ivory Shirt" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Ivory Shirt</h6>
+                    <p>
+                      ₹6,490
+                      <span class="old-price">₹8,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w8" data-price="12490" data-old-price="16990"
+                data-main="women" data-category="dress" data-size="S,M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/belted_dress.jpg" alt="Olive Belted Dress" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Olive Belted Dress</h6>
+                    <p>
+                      ₹12,490
+                      <span class="old-price">₹16,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w9" data-price="8990" data-old-price="12990"
+                data-main="women" data-category="trousers" data-size="S,M,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/tailored_trousers.jpg" alt="Graphite Trousers" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Graphite Trousers</h6>
+                    <p>
+                      ₹8,990
+                      <span class="old-price">₹12,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w10" data-price="13490" data-old-price="18990"
+                data-main="women" data-category="blazer" data-size="M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/oversized_blazer.jpg" alt="Sand Blazer" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Sand Blazer</h6>
+                    <p>
+                      ₹13,490
+                      <span class="old-price">₹18,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w11" data-price="7490" data-old-price="9990"
+                data-main="women" data-category="dress" data-size="S,M,L">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/satin_skirt.jpg" alt="Ivory Satin Skirt" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Ivory Satin Skirt</h6>
+                    <p>
+                      ₹7,490
+                      <span class="old-price">₹9,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w12" data-price="6990" data-old-price="9990"
+                data-main="women" data-category="outerwear" data-size="M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/black_vest.jpg" alt="Black Tailored Vest" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Black Tailored Vest</h6>
+                    <p>
+                      ₹6,990
+                      <span class="old-price">₹9,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w13" data-price="11990" data-old-price="15990"
+                data-main="women" data-category="outerwear" data-size="S,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/linen_set.jpg" alt="Neutral Linen Set" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Neutral Linen Set</h6>
+                    <p>
+                      ₹11,990
+                      <span class="old-price">₹15,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w14" data-price="7990" data-old-price="10990"
+                data-main="women" data-category="dress" data-size="S,M,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/highwaist_skirt.jpg" alt="High-Waist Skirt" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>High-Waist Skirt</h6>
+                    <p>
+                      ₹7,990
+                      <span class="old-price">₹10,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w15" data-price="19990" data-old-price="25990"
+                data-main="women" data-category="outerwear" data-size="M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/longline_coat.jpg" alt="Longline Coat" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Longline Coat</h6>
+                    <p>
+                      ₹19,990
+                      <span class="old-price">₹25,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w16" data-price="22990" data-old-price="29990"
+                data-main="women" data-category="outerwear" data-size="S,M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/wrap_coat.jpg" alt="Cashmere Coat" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Cashmere Coat</h6>
+                    <p>
+                      ₹22,990
+                      <span class="old-price">₹29,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w17" data-price="14490" data-old-price="19990"
+                data-main="women" data-category="blazer" data-size="S,M,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p17.jpg" alt="Cream Blazer" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Cream Blazer</h6>
+                    <p>
+                      ₹14,490
+                      <span class="old-price">₹19,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w18" data-price="9490" data-old-price="13490"
+                data-main="women" data-category="trousers" data-size="S,M,L">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p18.jpg" alt="Wide-Leg Trousers" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Wide-Leg Trousers</h6>
+                    <p>
+                      ₹9,490
+                      <span class="old-price">₹13,490</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w19" data-price="15990" data-old-price="21990"
+                data-main="women" data-category="dress" data-size="S,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p19.jpg" alt="Satin Midi Dress" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Satin Midi Dress</h6>
+                    <p>
+                      ₹15,990
+                      <span class="old-price">₹21,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w20" data-price="21990" data-old-price="28990"
+                data-main="women" data-category="outerwear" data-size="S,L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p20.jpg" alt="Oversized Wool Coat" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Oversized Wool Coat</h6>
+                    <p>
+                      ₹21,990
+                      <span class="old-price">₹28,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w21" data-price="8990" data-old-price="12490"
+                data-main="women" data-category="outerwear" data-size="S,L,M">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p21.jpg" alt="Tailored Vest" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Tailored Vest</h6>
+                    <p>
+                      ₹8,990
+                      <span class="old-price">₹12,490</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w22" data-price="9990" data-old-price="13990"
+                data-main="women" data-category="dress" data-size="L,M,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p22.jpg" alt="Pleated Midi Skirt" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Pleated Midi Skirt</h6>
+                    <p>
+                      ₹9,990
+                      <span class="old-price">₹13,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w23" data-price="13990" data-old-price="18990"
+                data-main="women" data-category="outerwear" data-size="L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p23.jpg" alt="Cashmere Sweater" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Cashmere Sweater</h6>
+                    <p>
+                      ₹13,990
+                      <span class="old-price">₹18,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 product-col" data-id="w24" data-price="16490" data-old-price="22990"
+                data-main="women" data-category="dress" data-size="L,XL">
+                <div class="product-card">
+                  <div class="product-img">
+                    <img src="assets/img/p24.jpg" alt="Black Shirt Dress" class="img-fluid">
+                    <button class="wishlist-btn">
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+                  <div class="product-info">
+                    <h6>Black Shirt Dress</h6>
+                    <p>
+                      ₹16,490
+                      <span class="old-price">₹22,990</span>
+                    </p>
+                    <button class="add-cart-btn">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <nav class="mt-5">
+              <ul class="pagination justify-content-center">
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="auren-footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row gy-5">
+          <div class="col-lg-4">
+            <h5 class="footer-logo">Auren</h5>
+            <p class="footer-description">
+              Crafted with intention. Designed for quiet confidence.
+            </p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6 class="footer-heading">Shop</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="women.html">Women</a></li>
+              <li><a href="men.html">Men</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="newin.html">New In</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Support</h6>
+            <ul class="footer-links list list-unstyled">
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Shipping & Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Sustainability</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom text-center">
+      <div class="container">
+        <p class="mb-0">&copy; 2026 AUREN. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Global Variables
+      const productsPerPage = 8;
+      const productContainer = document.getElementById("productContainer");
+      const productColumns = document.querySelectorAll(".product-col");
+
+      const priceFilters = document.querySelectorAll(".price-filter");
+      const categoryFilters = document.querySelectorAll(".category-filter");
+      const sizeFilters = document.querySelectorAll(".size-filter");
+
+      const clearBtn = document.getElementById("clearFilters");
+      const sortSelect = document.getElementById("sortPrice");
+
+      let filteredProducts = [...productColumns];
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // ============== ALL PRODUCTS DATA FOR SEARCH ==============
+      const allProducts = [
+        // Sale page products
+        { id: "1", name: "Signature Blazer", price: 5399, oldPrice: 8999, image: "assets/img/s1.jpg", category: "blazer", main: "men" },
+        { id: "2", name: "Utility Overshirt", price: 3249, oldPrice: 4999, image: "assets/img/s2 (2).jpg", category: "shirt", main: "men" },
+        { id: "3", name: "Tailored Trousers", price: 2699, oldPrice: 4499, image: "assets/img/s3 (2).jpg", category: "trousers", main: "men" },
+        { id: "4", name: "Cashmere Sweater", price: 4899, oldPrice: 6999, image: "assets/img/s4.jpg", category: "sweater", main: "men" },
+        { id: "5", name: "Black Graphite Shirt", price: 2399, oldPrice: 3999, image: "assets/img/s5.jpg", category: "shirt", main: "men" },
+        { id: "6", name: "Tailored Blazer Set", price: 6499, oldPrice: 9999, image: "assets/img/s6.jpg", category: "blazer", main: "women" },
+        { id: "7", name: "Deep Olive Dress", price: 4224, oldPrice: 6499, image: "assets/img/s7.jpg", category: "dress", main: "women" },
+        { id: "8", name: "Warm Sand Co-ord", price: 3899, oldPrice: 5999, image: "assets/img/s8.jpg", category: "dress", main: "women" },
+        { id: "9", name: "Black Graphite Dress", price: 5099, oldPrice: 8499, image: "assets/img/s9.jpg", category: "dress", main: "women" },
+        { id: "10", name: "Gray Wide-Leg Pants", price: 2999, oldPrice: 4999, image: "assets/img/s10.jpg", category: "trousers", main: "women" },
+        { id: "11", name: "Dial Signature Watch", price: 8499, oldPrice: 12999, image: "assets/img/s11.jpg", category: "watch", main: "accessories" },
+        { id: "12", name: "Black Leather Belt", price: 1249, oldPrice: 2499, image: "assets/img/s12.jpg", category: "belt", main: "accessories" },
+        { id: "13", name: "Noir Sunglasses", price: 3249, oldPrice: 4999, image: "assets/img/s13.jpg", category: "sunglasses", main: "accessories" },
+        { id: "14", name: "Bronze Handbag", price: 5399, oldPrice: 8999, image: "assets/img/s14.jpg", category: "bag", main: "accessories" },
+        { id: "15", name: "Ivory Sneakers", price: 4549, oldPrice: 6999, image: "assets/img/s15.jpg", category: "shoes", main: "accessories" },
+        { id: "16", name: "Deep Olive Scarf", price: 1949, oldPrice: 2999, image: "assets/img/s16.jpg", category: "scarf", main: "accessories" },
+
+        // Women page products
+        { id: "w1", name: "Structured Blazer", price: 12990, oldPrice: 18990, image: "assets/img/olive_blazer.jpg", category: "blazer", main: "women" },
+        { id: "w2", name: "Ivory Trousers", price: 8490, oldPrice: 11990, image: "assets/img/ivory_trousers.jpg", category: "trousers", main: "women" },
+        { id: "w3", name: "Sand Tailored Coat", price: 18990, oldPrice: 24990, image: "assets/img/sand_coat.jpg", category: "outerwear", main: "women" },
+        { id: "w4", name: "Graphite Midi Dress", price: 11490, oldPrice: 15990, image: "assets/img/midi_dress.jpg", category: "dress", main: "women" },
+        { id: "w5", name: "Olive Silk Blouse", price: 7990, oldPrice: 10990, image: "assets/img/silk_blouse.jpg", category: "outerwear", main: "women" },
+        { id: "w6", name: "Beige Knit Set", price: 10990, oldPrice: 14990, image: "assets/img/beige_knit set.jpg", category: "dress", main: "women" },
+        { id: "w7", name: "Ivory Shirt", price: 6490, oldPrice: 8990, image: "assets/img/ivory_shirt.jpg", category: "outerwear", main: "women" },
+        { id: "w8", name: "Olive Belted Dress", price: 12490, oldPrice: 16990, image: "assets/img/belted_dress.jpg", category: "dress", main: "women" },
+        { id: "w9", name: "Graphite Trousers", price: 8990, oldPrice: 12990, image: "assets/img/tailored_trousers.jpg", category: "trousers", main: "women" },
+        { id: "w10", name: "Sand Blazer", price: 13490, oldPrice: 18990, image: "assets/img/oversized_blazer.jpg", category: "blazer", main: "women" },
+        { id: "w11", name: "Ivory Satin Skirt", price: 7490, oldPrice: 9990, image: "assets/img/satin_skirt.jpg", category: "dress", main: "women" },
+        { id: "w12", name: "Black Tailored Vest", price: 6990, oldPrice: 9990, image: "assets/img/black_vest.jpg", category: "outerwear", main: "women" },
+        { id: "w13", name: "Neutral Linen Set", price: 11990, oldPrice: 15990, image: "assets/img/linen_set.jpg", category: "outerwear", main: "women" },
+        { id: "w14", name: "High-Waist Skirt", price: 7990, oldPrice: 10990, image: "assets/img/highwaist_skirt.jpg", category: "dress", main: "women" },
+        { id: "w15", name: "Longline Coat", price: 19990, oldPrice: 25990, image: "assets/img/longline_coat.jpg", category: "outerwear", main: "women" },
+        { id: "w16", name: "Cashmere Coat", price: 22990, oldPrice: 29990, image: "assets/img/wrap_coat.jpg", category: "outerwear", main: "women" },
+        { id: "w17", name: "Cream Blazer", price: 14490, oldPrice: 19990, image: "assets/img/p17.jpg", category: "blazer", main: "women" },
+        { id: "w18", name: "Wide-Leg Trousers", price: 9490, oldPrice: 13490, image: "assets/img/p18.jpg", category: "trousers", main: "women" },
+        { id: "w19", name: "Satin Midi Dress", price: 15990, oldPrice: 21990, image: "assets/img/p19.jpg", category: "dress", main: "women" },
+        { id: "w20", name: "Oversized Wool Coat", price: 21990, oldPrice: 28990, image: "assets/img/p20.jpg", category: "outerwear", main: "women" },
+        { id: "w21", name: "Tailored Vest", price: 8990, oldPrice: 12490, image: "assets/img/p21.jpg", category: "outerwear", main: "women" },
+        { id: "w22", name: "Pleated Midi Skirt", price: 9990, oldPrice: 13990, image: "assets/img/p22.jpg", category: "dress", main: "women" },
+        { id: "w23", name: "Cashmere Sweater", price: 13990, oldPrice: 18990, image: "assets/img/p23.jpg", category: "outerwear", main: "women" },
+        { id: "w24", name: "Black Shirt Dress", price: 16490, oldPrice: 22990, image: "assets/img/p24.jpg", category: "dress", main: "women" }
+      ];
+
+      // Store all products in localStorage for other pages to use
+      localStorage.setItem("allProducts", JSON.stringify(allProducts));
+
+      // Update Wishlist Count
+      function updateWishlistCount() {
+        document.querySelectorAll(".wishlist-count").forEach(el => {
+          el.textContent = wishlist.length;
+        });
+      }
+
+      // Update Cart Count
+      function updateCartCount() {
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll(".cart-count").forEach(el => {
+          el.textContent = totalItems;
+        });
+      }
+
+      // Toast notification
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast-notification";
+        toast.innerHTML = `
+          <i class="bi bi-check-circle-fill"></i>
+          <span>${message}</span>
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add("show");
+        }, 100);
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      // ============== SEARCH FUNCTIONALITY ==============
+      const searchIcon = document.getElementById('searchIcon');
+      const searchBarWrapper = document.getElementById('searchBarWrapper');
+      const searchInputNav = document.getElementById('searchInputNav');
+      const searchResultsGrid = document.getElementById('searchResultsGrid');
+      const searchResultsContainer = document.getElementById('searchResultsContainer');
+      const searchResultsCount = document.getElementById('searchResultsCount');
+      const closeSearchResults = document.getElementById('closeSearchResults');
+
+      let searchTimeout;
+
+      // Ensure search bar starts empty
+      searchInputNav.value = '';
+
+      if (searchIcon) {
+        // Toggle search bar
+        searchIcon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          searchBarWrapper.classList.toggle('active');
+          if (searchBarWrapper.classList.contains('active')) {
+            searchInputNav.focus();
+          }
+        });
+      }
+
+      function triggerSearch(query) {
+        const results = allProducts.filter(product =>
+          product.name.toLowerCase().includes(query.toLowerCase()) ||
+          product.category.toLowerCase().includes(query.toLowerCase())
+        );
+
+        searchResultsCount.textContent =
+          `${results.length} product${results.length !== 1 ? 's' : ''} found`;
+
+        if (results.length === 0) {
+          searchResultsContainer.innerHTML =
+            '<div class="col-12 text-center py-5"><p style="color: var(--stone-gray);">No products found matching your search.</p></div>';
+        } else {
+          searchResultsContainer.innerHTML = results.map(product => {
+            const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+
+            return `
+              <div class="col-md-6 col-lg-3">
+                <div class="search-product-card" data-id="${product.id}">
+                  <img src="${product.image}" alt="${product.name}" class="img-fluid">
+                  <div class="search-product-info">
+                    <h6>${product.name}</h6>
+                    <p>
+                      ₹${product.price.toLocaleString()}
+                      <span class="old-price">₹${product.oldPrice.toLocaleString()}</span>
+                      <span class="discount-badge">${discount}% OFF</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          // Add click handlers for search results
+          document.querySelectorAll('.search-product-card').forEach(card => {
+            card.addEventListener('click', function () {
+              const productId = this.dataset.id;
+              const selectedProduct = allProducts.find(p => p.id === productId);
+              localStorage.setItem("currentProduct", JSON.stringify(selectedProduct));
+              window.location.href = `product-detail.html?id=${productId}`;
+            });
+          });
+        }
+
+        searchResultsGrid.classList.add('show');
+      }
+
+      // Close search bar when clicking outside
+      document.addEventListener('click', (e) => {
+        if (searchBarWrapper && !searchBarWrapper.contains(e.target) && !searchIcon.contains(e.target)) {
+          searchBarWrapper.classList.remove('active');
+        }
+      });
+
+      // Close search results
+      if (closeSearchResults) {
+        closeSearchResults.addEventListener('click', () => {
+          searchResultsGrid.classList.remove('show');
+          searchBarWrapper.classList.remove('active');
+          searchInputNav.value = '';
+        });
+      }
+
+      // Live search
+      if (searchInputNav) {
+        searchInputNav.addEventListener('input', function () {
+          clearTimeout(searchTimeout);
+          const query = this.value.trim();
+
+          if (query.length < 2) {
+            searchResultsGrid.classList.remove('show');
+            return;
+          }
+
+          searchTimeout = setTimeout(() => {
+            triggerSearch(query);
+          }, 300);
+        });
+
+        // Handle enter key
+        searchInputNav.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const query = this.value.trim();
+            if (query.length >= 2) {
+              triggerSearch(query);
+            }
+          }
+        });
+      }
+
+      // Toggle Wishlist Function
+      function toggleWishlist(productCol) {
+        const productId = productCol.dataset.id;
+        const icon = productCol.querySelector(".wishlist-btn i");
+
+        const productData = {
+          id: productId,
+          name: productCol.querySelector("h6").innerText,
+          price: productCol.dataset.price,
+          oldPrice: productCol.dataset.oldPrice,
+          image: productCol.querySelector("img").getAttribute("src")
+        };
+
+        const existingIndex = wishlist.findIndex(p => p.id === productId);
+
+        if (existingIndex !== -1) {
+          wishlist.splice(existingIndex, 1);
+          icon.classList.remove("bi-heart-fill");
+          icon.classList.add("bi-heart");
+        } else {
+          wishlist.push(productData);
+          icon.classList.remove("bi-heart");
+          icon.classList.add("bi-heart-fill");
+        }
+
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        updateWishlistCount();
+        window.dispatchEvent(new Event('wishlistUpdated'));
+      }
+
+      // Add to cart function
+      function addToCart(productCol) {
+        const productId = productCol.dataset.id;
+        const productData = {
+          id: productId,
+          name: productCol.querySelector("h6").innerText,
+          price: parseInt(productCol.dataset.price),
+          oldPrice: parseInt(productCol.dataset.oldPrice),
+          image: productCol.querySelector("img").getAttribute("src"),
+          quantity: 1
+        };
+
+        const existingItem = cart.find(item => item.id === productId);
+
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push(productData);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        showToast(`${productData.name} added to cart!`);
+      }
+
+      // Direct click handler for wishlist buttons
+      document.querySelectorAll(".wishlist-btn").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const productCol = this.closest(".product-col");
+          if (productCol) {
+            toggleWishlist(productCol);
+          }
+        });
+      });
+
+      // Add click handlers for Add to Cart buttons
+      document.querySelectorAll(".add-cart-btn").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const productCol = this.closest(".product-col");
+          if (productCol) {
+            addToCart(productCol);
+          }
+        });
+      });
+
+      // Product card click to open detail page
+      document.querySelectorAll(".product-card").forEach(card => {
+        card.addEventListener("click", function (e) {
+          if (e.target.closest(".wishlist-btn") || e.target.closest(".add-cart-btn")) {
+            return;
+          }
+
+          const productCol = this.closest(".product-col");
+          if (productCol) {
+            const productId = productCol.dataset.id;
+            const productMain = productCol.dataset.main;
+
+            const productData = {
+              id: productId,
+              name: productCol.querySelector("h6").innerText,
+              price: productCol.dataset.price,
+              oldPrice: productCol.dataset.oldPrice,
+              image: productCol.querySelector("img").getAttribute("src"),
+              main: productMain,
+              category: productCol.dataset.category,
+              size: productCol.dataset.size,
+              description: getProductDescription(productCol.dataset.category)
+            };
+
+            localStorage.setItem("currentProduct", JSON.stringify(productData));
+            window.location.href = `product-detail.html?id=${productId}`;
+          }
+        });
+      });
+
+      // Helper function for product descriptions
+      function getProductDescription(category) {
+        const descriptions = {
+          blazer: "A meticulously crafted blazer that embodies sophistication. Made from premium fabric with perfect tailoring for a confident silhouette.",
+          dress: "Elegant dress that flows beautifully. Designed to flatter your figure and make you feel confident.",
+          trousers: "Elegant trousers that combine comfort with style. Perfect for both formal and casual occasions.",
+          outerwear: "Luxuriously soft outerwear made from premium materials. Provides warmth without compromising on style."
+        };
+        return descriptions[category] || "Premium quality product from Auren's exclusive collection.";
+      }
+
+      // Apply Filters Function
+      function applyFilters() {
+        const selectedPrices = [...priceFilters].filter(cb => cb.checked).map(cb => cb.value);
+        const selectedCategories = [...categoryFilters].filter(cb => cb.checked).map(cb => cb.value);
+        const selectedSizes = [...sizeFilters].filter(cb => cb.checked).map(cb => cb.value);
+
+        filteredProducts = [...productColumns].filter(product => {
+          const price = parseInt(product.dataset.price);
+          const category = product.dataset.category;
+          const sizes = product.dataset.size ? product.dataset.size.split(",") : [];
+
+          const priceMatch = selectedPrices.length === 0 || selectedPrices.some(range => {
+            const [min, max] = range.split("-").map(Number);
+            return price >= min && price <= max;
+          });
+
+          const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(category);
+
+          const sizeMatch = selectedSizes.length === 0 || selectedSizes.some(size => sizes.includes(size));
+
+          return priceMatch && categoryMatch && sizeMatch;
+        });
+
+        if (filteredProducts.length === 0) {
+          productColumns.forEach(col => col.style.display = "none");
+          document.querySelector(".pagination").innerHTML = "";
+          if (!document.getElementById("no-products")) {
+            productContainer.insertAdjacentHTML(
+              "beforeend",
+              "<p id='no-products' class='text-center py-5 w-100'>No products found.</p>"
+            );
+          }
+          return;
+        }
+
+        const noMsg = document.getElementById("no-products");
+        if (noMsg) noMsg.remove();
+
+        applySorting();
+        updatePagination();
+        showPage(1);
+      }
+
+      // Apply Sorting
+      function applySorting() {
+        const sortValue = sortSelect.value;
+
+        if (sortValue === "low-high") {
+          filteredProducts.sort((a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
+        }
+
+        if (sortValue === "high-low") {
+          filteredProducts.sort((a, b) => parseInt(b.dataset.price) - parseInt(a.dataset.price));
+        }
+      }
+
+      // Update Pagination
+      function updatePagination() {
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+        const pagination = document.querySelector(".pagination");
+        pagination.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+          const li = document.createElement("li");
+          li.classList.add("page-item");
+          if (i === 1) li.classList.add("active");
+
+          const a = document.createElement("a");
+          a.classList.add("page-link");
+          a.href = "#";
+          a.innerText = i;
+
+          a.addEventListener("click", function (e) {
+            e.preventDefault();
+            showPage(i);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+
+          li.appendChild(a);
+          pagination.appendChild(li);
+        }
+      }
+
+      // Show Page
+      function showPage(pageNumber) {
+        productColumns.forEach(col => {
+          col.style.display = "none";
+          col.querySelector(".product-card").classList.remove("show");
+        });
+
+        const start = (pageNumber - 1) * productsPerPage;
+        const end = start + productsPerPage;
+
+        filteredProducts.slice(start, end).forEach((product, index) => {
+          product.style.display = "block";
+
+          // Restore wishlist state
+          const productId = product.dataset.id;
+          const icon = product.querySelector(".wishlist-btn i");
+          const exists = wishlist.find(item => item.id === productId);
+
+          if (exists) {
+            icon.classList.remove("bi-heart");
+            icon.classList.add("bi-heart-fill");
+          } else {
+            icon.classList.remove("bi-heart-fill");
+            icon.classList.add("bi-heart");
+          }
+
+          setTimeout(() => {
+            product.querySelector(".product-card").classList.add("show");
+          }, index * 80);
+        });
+
+        document.querySelectorAll(".page-item").forEach(item => {
+          item.classList.remove("active");
+        });
+
+        const current = document.querySelectorAll(".page-item")[pageNumber - 1];
+        if (current) current.classList.add("active");
+      }
+
+      // Event Listeners
+      [...priceFilters, ...categoryFilters, ...sizeFilters].forEach(cb =>
+        cb.addEventListener("change", applyFilters)
+      );
+
+      sortSelect.addEventListener("change", applyFilters);
+
+      clearBtn.addEventListener("click", () => {
+        [...priceFilters, ...categoryFilters, ...sizeFilters].forEach(cb =>
+          cb.checked = false
+        );
+        sortSelect.value = "";
+        filteredProducts = [...productColumns];
+        updatePagination();
+        showPage(1);
+      });
+
+      // Initial Load
+      updateWishlistCount();
+      updateCartCount();
+
+      // Set initial wishlist states
+      productColumns.forEach(product => {
+        const productId = product.dataset.id;
+        const icon = product.querySelector(".wishlist-btn i");
+        const exists = wishlist.find(item => item.id === productId);
+
+        if (exists) {
+          icon.classList.remove("bi-heart");
+          icon.classList.add("bi-heart-fill");
+        }
+      });
+
+      updatePagination();
+      showPage(1);
+    });
+  </script>
+</body>
+
+</html>

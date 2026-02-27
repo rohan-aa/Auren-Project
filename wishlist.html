@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Wishlist | Auren</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <!-- Fix: Use correct Font Awesome version -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    /* Same styles as product pages */
+    .product-card {
+      background: var(--ivory-mist);
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-img {
+      position: relative;
+      width: 100%;
+      border-radius: 0px !important;
+      overflow: hidden;
+    }
+
+    .product-img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transition: 0.4s ease;
+    }
+
+    .product-card:hover .product-img::after {
+      opacity: 1;
+    }
+
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .wishlist-btn i {
+      font-size: 18px;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: 0.3s ease;
+    }
+
+    .wishlist-btn:hover i {
+      color: var(--soft-gold);
+      transform: scale(1.2);
+    }
+
+    .product-info {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-info h6 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .product-info p {
+      margin: 0;
+      color: var(--soft-gold);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .add-cart-btn {
+      background: var(--black-graphite);
+      color: var(--ivory-mist);
+      border: none;
+      padding: 6px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 20;
+      position: relative;
+    }
+
+    .add-cart-btn:hover {
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+    }
+
+    .sale-badge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+      font-size: 11px;
+      padding: 6px 8px;
+      letter-spacing: 1px;
+      font-weight: 600;
+      border-bottom-right-radius: 12px;
+      z-index: 5;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      font-size: 12px;
+      color: var(--stone-gray);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    .old-price::before {
+      content: " ";
+      font-size: 10px;
+      color: var(--stone-gray);
+      opacity: 0.7;
+      margin-right: 2px;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 15;
+    }
+
+    .remove-btn i {
+      color: white;
+      font-size: 14px;
+    }
+
+    .remove-btn:hover {
+      background: var(--soft-gold);
+      transform: scale(1.1);
+    }
+
+    .remove-btn:hover i {
+      color: var(--black-graphite);
+    }
+
+    .auren-btn-clear {
+      background: transparent;
+      border: 1px solid var(--stone-gray);
+      color: var(--black-graphite);
+      padding: 8px 18px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .auren-btn-clear:hover {
+      background: var(--deep-olive);
+      color: var(--ivory-mist);
+      border-color: var(--deep-olive);
+    }
+
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--black-graphite);
+      color: var(--ivory-mist);
+      padding: 12px 24px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      border: 1px solid var(--soft-gold);
+    }
+
+    .toast-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-notification i {
+      color: var(--soft-gold);
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
+    <div class="container-fluid px-5">
+      <!-- Logo -->
+      <a class="navbar-brand fw-bold pe-5" href="index.html">
+        AUREN
+      </a>
+
+      <!-- Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#aurenNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Center Menu -->
+      <div class="collapse navbar-collapse justify-content-start" id="aurenNavbar">
+        <ul class="navbar-nav gap-4">
+          <li class="nav-item"><a class="nav-link" href="women.html">Women</a></li>
+          <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
+          <li class="nav-item"><a class="nav-link" href="accessories.html">Accessories</a></li>
+          <li class="nav-item"><a class="nav-link" href="newin.html">New In</a></li>
+          <li class="nav-item"><a class="nav-link" href="sale.html">Sale</a></li>
+        </ul>
+      </div>
+
+      <!-- Right Icons -->
+      <div class="d-flex align-items-center gap-4">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-regular fa-user"></i>
+        <a href="wishlist.html" class="position-relative text-dark">
+          <i class="bi bi-heart fs-5"></i>
+          <span class="wishlist-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+            0
+          </span>
+        </a>
+        <a href="cart.html" class="position-relative text-dark">
+          <i class="fa-solid fa-bag-shopping fs-5"></i>
+          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+            0
+          </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container py-5">
+      <h2 class="mb-4" style="font-family: 'Playfair Display', serif;">My Wishlist</h2>
+      <div class="row g-4" id="wishlist-container"></div>
+    </div>
+  </main>
+
+  <footer class="auren-footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row gy-5">
+          <div class="col-lg-4">
+            <h5 class="footer-logo">Auren</h5>
+            <p class="footer-description">
+              Crafted with intention. Designed for quiet confidence.
+            </p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6 class="footer-heading">Shop</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="women.html">Women</a></li>
+              <li><a href="men.html">Men</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="newin.html">New In</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Support</h6>
+            <ul class="footer-links list list-unstyled">
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Shipping & Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Sustainability</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom text-center">
+      <div class="container">
+        <p class="mb-0">&copy; 2026 AUREN. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get wishlist and cart from localStorage
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const allProducts = JSON.parse(localStorage.getItem("allProducts")) || [];
+
+      // Update wishlist count in navbar
+      function updateWishlistCount() {
+        document.querySelectorAll(".wishlist-count").forEach(el => {
+          el.textContent = wishlist.length;
+        });
+      }
+
+      // Update cart count in navbar
+      function updateCartCount() {
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll(".cart-count").forEach(el => {
+          el.textContent = totalItems;
+        });
+      }
+
+      // Toast notification
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast-notification";
+        toast.innerHTML = `
+          <i class="bi bi-check-circle-fill"></i>
+          <span>${message}</span>
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add("show");
+        }, 100);
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      // Function to add item to cart
+      function addToCart(productId) {
+        const product = wishlist.find(item => item.id === productId);
+        
+        if (product) {
+          const cartItem = {
+            id: product.id,
+            name: product.name,
+            price: parseInt(product.price),
+            oldPrice: parseInt(product.oldPrice),
+            image: product.image,
+            quantity: 1
+          };
+
+          const existingItem = cart.find(item => item.id === productId);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cart.push(cartItem);
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+          updateCartCount();
+          showToast(`${product.name} added to cart!`);
+        }
+      }
+
+      // Function to remove item from wishlist
+      function removeFromWishlist(productId) {
+        wishlist = wishlist.filter(item => item.id !== productId);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        
+        // Update the display
+        renderWishlist();
+        updateWishlistCount();
+        showToast("Item removed from wishlist");
+      }
+
+      // Function to open product detail page
+      function openProductDetail(productId) {
+        // Try to find the product in allProducts first, then in wishlist
+        let productData = allProducts.find(p => p.id === productId);
+        
+        if (!productData) {
+          // If not found in allProducts, use wishlist data
+          productData = wishlist.find(p => p.id === productId);
+        }
+        
+        if (productData) {
+          localStorage.setItem("currentProduct", JSON.stringify(productData));
+          window.location.href = `product-detail.html?id=${productId}`;
+        }
+      }
+
+      // Function to render wishlist items
+      function renderWishlist() {
+        const container = document.getElementById("wishlist-container");
+
+        if (wishlist.length === 0) {
+          container.innerHTML = `
+            <div class="col-12 text-center py-5">
+              <i class="bi bi-heart" style="font-size: 48px; color: var(--soft-gold);"></i>
+              <p class="mt-3" style="color: var(--stone-gray);">Your wishlist is empty.</p>
+              <a href="sale.html" class="auren-btn-clear mt-3">Continue Shopping</a>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = wishlist.map(product => {
+          const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+          
+          return `
+            <div class="col-md-6 col-lg-3" data-id="${product.id}">
+              <div class="product-card" data-product-id="${product.id}">
+                <div class="product-img">
+                  <img src="${product.image}" alt="${product.name}" class="img-fluid">
+                  <span class="sale-badge">${discount}% OFF</span>
+                  <button class="remove-btn" onclick="event.stopPropagation(); window.removeFromWishlist('${product.id}')">
+                    <i class="bi bi-x"></i>
+                  </button>
+                </div>
+                <div class="product-info">
+                  <h6>${product.name}</h6>
+                  <p>
+                    ₹${parseInt(product.price).toLocaleString()}
+                    <span class="old-price">₹${parseInt(product.oldPrice).toLocaleString()}</span>
+                  </p>
+                  <button class="add-cart-btn" onclick="event.stopPropagation(); window.addToCart('${product.id}')">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Add click handlers for product cards
+        document.querySelectorAll('.product-card').forEach(card => {
+          card.addEventListener('click', function(e) {
+            // Don't navigate if clicking on remove button or add to cart button
+            if (e.target.closest('.remove-btn') || e.target.closest('.add-cart-btn')) {
+              return;
+            }
+            
+            const productId = this.closest('[data-id]').dataset.id;
+            openProductDetail(productId);
+          });
+        });
+      }
+
+      // Make functions globally available for inline onclick handlers
+      window.removeFromWishlist = removeFromWishlist;
+      window.addToCart = addToCart;
+
+      // Initial render
+      renderWishlist();
+      updateWishlistCount();
+      updateCartCount();
+
+      // Listen for wishlist updates from other pages
+      window.addEventListener('wishlistUpdated', function() {
+        wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        renderWishlist();
+        updateWishlistCount();
+      });
+
+      // Listen for cart updates from other pages
+      window.addEventListener('cartUpdated', function() {
+        cart = JSON.parse(localStorage.getItem("cart")) || [];
+        updateCartCount();
+      });
+    });
+  </script>
+</body>
+
+</html>

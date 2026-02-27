@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Collection | Auren</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root {
+      --soft-gold: #c4a66f;
+      --black-graphite: #2c2c2c;
+      --ivory-mist: #f8f6f2;
+      --warm-sand: #e5dbd3;
+      --stone-gray: #a7a7a7;
+      --deep-olive: #4a4a3a;
+    }
+
+    .explore-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.3)), url('assets/img/explore-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+
+    .explore-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 64px;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .explore-hero p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    .category-showcase {
+      padding: 80px 0;
+    }
+
+    .category-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      height: 400px;
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .category-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .category-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 40px;
+      color: white;
+    }
+
+    .category-overlay h3 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .category-overlay p {
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+
+    .category-btn {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 10px 24px;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .category-btn:hover {
+      background: white;
+      color: var(--black-graphite);
+    }
+
+    .featured-collection {
+      background: var(--ivory-mist);
+      padding: 80px 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .product-card {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin-bottom: 30px;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+
+      transition: transform 0.6s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.02);
+    }
+
+    .product-info {
+      padding: 15px 0;
+    }
+
+    .product-info h6 {
+      margin: 0 0 5px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .product-info p {
+      margin: 0;
+      color: var(--soft-gold);
+      font-weight: 600;
+    }
+
+    .load-more {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .load-more-btn {
+      background: transparent;
+      border: 1px solid var(--soft-gold);
+      color: var(--black-graphite);
+      padding: 14px 40px;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .load-more-btn:hover {
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
+    <div class="container-fluid px-5">
+      <a class="navbar-brand fw-bold pe-5" href="index.html">AUREN</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#aurenNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-start" id="aurenNavbar">
+        <ul class="navbar-nav gap-4">
+          <li class="nav-item"><a class="nav-link" href="women.html">Women</a></li>
+          <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
+          <li class="nav-item"><a class="nav-link" href="accessories.html">Accessories</a></li>
+          <li class="nav-item"><a class="nav-link" href="newin.html">New In</a></li>
+          <li class="nav-item"><a class="nav-link" href="sale.html">Sale</a></li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center gap-4">
+        <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
+        <a href="account.html" class="text-dark">
+          <i class="fa-regular fa-user" style="cursor: pointer;"></i>
+        </a>
+        <a href="wishlist.html" class="position-relative text-dark">
+          <i class="bi bi-heart fs-5"></i>
+          <span class="wishlist-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">0</span>
+        </a>
+        <a href="cart.html" class="position-relative text-dark">
+          <i class="fa-solid fa-bag-shopping fs-5"></i>
+          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="explore-hero">
+      <div class="container">
+        <h1>Explore The Collection</h1>
+        <p>Discover our curated selection of timeless essentials, crafted with intention and designed for quiet
+          confidence.</p>
+      </div>
+    </section>
+
+    <section class="category-showcase">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="category-card" onclick="window.location.href='women.html'">
+              <img src="assets/img/women-explore.jpg" alt="Women">
+              <div class="category-overlay">
+                <h3>Women</h3>
+                <p>Refined essentials designed with presence</p>
+                <a href="women.html" class="category-btn">Explore</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="category-card" onclick="window.location.href='men.html'">
+              <img src="assets/img/men-explore.jpg" alt="Men">
+              <div class="category-overlay">
+                <h3>Men</h3>
+                <p>Modern tailoring designed with precision</p>
+                <a href="men.html" class="category-btn">Explore</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="category-card" onclick="window.location.href='accessories.html'">
+              <img src="assets/img/acces-explore.jpg" alt="Accessories">
+              <div class="category-overlay">
+                <h3>Accessories</h3>
+                <p>Refined details to complete your look</p>
+                <a href="accessories.html" class="category-btn">Explore</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-collection">
+      <div class="container">
+        <h2 class="section-title">Featured Pieces</h2>
+        <div class="row g-4" id="featuredProducts">
+          <!-- Products will be loaded via JavaScript -->
+        </div>
+        <div class="load-more">
+          <a href="sale.html" class="load-more-btn">View All Products</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="auren-footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row gy-5">
+          <div class="col-lg-4">
+            <h5 class="footer-logo">Auren</h5>
+            <p class="footer-description">Crafted with intention. Designed for quiet confidence.</p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6 class="footer-heading">Shop</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="women.html">Women</a></li>
+              <li><a href="men.html">Men</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="newin.html">New In</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Support</h6>
+            <ul class="footer-links list list-unstyled">
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Shipping & Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Sustainability</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom text-center">
+      <div class="container">
+        <p class="mb-0">&copy; 2026 AUREN. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Featured products
+      const featuredProducts = [
+        { id: "1", name: "Signature Blazer", price: 5399, image: "assets/img/s1.jpg" },
+        { id: "6", name: "Tailored Blazer Set", price: 6499, image: "assets/img/s6.jpg" },
+        { id: "11", name: "Dial Signature Watch", price: 8499, image: "assets/img/s11.jpg" },
+        { id: "home5", name: "Charcoal Minimalist Suit", price: 18400, image: "assets/img/p5.jpg" },
+        { id: "home2", name: "Black Evening Dress", price: 12500, image: "assets/img/p2.jpg" },
+        { id: "home4", name: "Minimal Handbag", price: 5400, image: "assets/img/p4.jpg" },
+        { id: "m3", name: "White Poplin Shirt", price: 8990, image: "assets/img/mp3.jpg" },
+        { id: "a3", name: "Leather Tote Bag", price: 18990, image: "assets/img/a3.jpg" }
+      ];
+
+      const container = document.getElementById('featuredProducts');
+
+      featuredProducts.forEach(product => {
+        const col = document.createElement('div');
+        col.className = 'col-lg-3 col-md-6';
+        col.innerHTML = `
+          <div class="product-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+              <h6>${product.name}</h6>
+              <p>₹${product.price.toLocaleString()}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+
+      // Update counts
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      document.querySelectorAll(".wishlist-count").forEach(el => {
+        el.textContent = wishlist.length;
+      });
+
+      document.querySelectorAll(".cart-count").forEach(el => {
+        el.textContent = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      });
+    });
+  </script>
+</body>
+
+</html>
