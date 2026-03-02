@@ -22,7 +22,8 @@
 
   <!-- Additional styles for new features -->
   <style>
-    /* Search Bar Animation */
+    /* ===== DESKTOP ANIMATED SEARCH ===== */
+
     .search-container {
       position: relative;
       display: flex;
@@ -54,7 +55,6 @@
       width: 100%;
       padding: 12px 20px;
       border: 2px solid var(--soft-gold);
-
       font-size: 14px;
       outline: none;
       background: white;
@@ -303,47 +303,53 @@
         margin: 0 auto;
       }
 
-      /* ===========================
-   MOBILE SEARCH FIX
-=========================== */
-      @media (max-width: 768px) {
-
-        .search-container {
-          position: static;
-        }
-
-        .search-bar-wrapper {
-          position: fixed;
-          top: 72px;
-          /* Navbar height */
-          left: 0;
-          right: 0;
-          width: 100%;
-          transform: translateY(-20px);
-          opacity: 0;
-          border-radius: 0;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-          transition: all 0.3s ease;
-        }
-
-        .search-bar-wrapper.active {
-          transform: translateY(0);
-          opacity: 1;
-        }
-
-        .search-input-nav {
-          width: 100%;
-          /* max-width: 600px; */
-          /* Remove this line */
-          padding: 14px 18px;
-          font-size: 16px;
-          border: none;
-          border-bottom: 2px solid var(--soft-gold);
-          text-align: center;
-        }
-
+      .hero-text {
+        padding: 0 20px !important;
+        text-align: center;
       }
 
+      .hero-title {
+        font-size: 28px;
+      }
+
+      .hero-text p {
+        font-size: 14px;
+      }
+
+      .ctas {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .ctas a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .collection-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .search-bar-wrapper.active {
+        width: 200px;
+      }
+
+      .collection-grid .card img {
+        height: 300px;
+        object-fit: cover;
+      }
+
+      .search-results-grid {
+        padding: 20px;
+      }
+
+      .product-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
     }
 
     @media (max-width: 991px) {
@@ -381,47 +387,46 @@
       .story-text {
         font-size: 15px;
       }
-    }
 
-    @media (max-width: 768px) {
-      .hero-text {
-        padding: 0 20px !important;
-        text-align: center;
-      }
-
-      .hero-title {
-        font-size: 28px;
-      }
-
-      .hero-text p {
+      .mobile-search input {
+        height: 36px;
         font-size: 14px;
+        border-radius: 30px;
+        padding: 6px 12px;
       }
 
-      .ctas {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
+      .auren-navbar .navbar-brand {
+        font-size: 16px;
       }
 
-      .ctas a {
+      .navbar-nav .nav-link {
+        font-size: 16px;
+        letter-spacing: 1px;
+      }
+
+      .navbar-nav {
+        gap: 0 !important;
+      }
+
+      .navbar {
+        padding: 12px 0;
+      }
+      .mobile-search input {
         width: 100%;
-        text-align: center;
+        height: 34px;
+        font-size: 13px;
+        border-radius: 30px;
+        padding: 6px 12px;
+        border: 1px solid var(--soft-gold);
+      }
+
+      /* Reduce logo padding in mobile */
+      .navbar-brand {
+        padding-left: 0 !important;
+        font-size: 16px;
       }
     }
 
-    @media (max-width: 768px) {
-      .collection-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .collection-grid .card img {
-        height: 300px;
-        object-fit: cover;
-      }
-
-    }
 
     @media (max-width: 576px) {
       .product-card {
@@ -480,58 +485,128 @@
         margin: auto;
       }
     }
+
+    /* ===========================
+   MOBILE SEARCH (FIXED)
+=========================== */
+
+    @media (max-width: 768px) {
+
+      .search-container {
+        position: static;
+      }
+
+      .search-bar-wrapper {
+        position: fixed;
+        top: 72px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        border-radius: 0;
+      }
+
+      .search-bar-wrapper.active {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .search-input-nav {
+        border-radius: 0;
+        border: none;
+        border-bottom: 2px solid var(--soft-gold);
+        padding: 14px 18px;
+        font-size: 16px;
+        text-align: center;
+      }
+
+    }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
-    <div class="container-fluid px-3 px-md-4 px-lg-5">
-      <!-- Logo -->
-      <a class="navbar-brand fw-bold pe-5" href="index.html">
-        AUREN
-      </a>
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top py-3 auren-navbar">
+    <div class="container-fluid px-lg-5 px-3">
 
-      <!-- Toggle -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#aurenNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <!-- MOBILE NAV ROW -->
+      <div class="d-flex align-items-center justify-content-between w-100 d-lg-none">
 
-      <!-- Center Menu -->
-      <div class="collapse navbar-collapse justify-content-start" id="aurenNavbar">
-        <ul class="navbar-nav gap-4">
-          <li class="nav-item"><a class="nav-link" href="women.html">Women</a></li>
+        <!-- LEFT -->
+        <div class="d-flex align-items-center gap-3">
+          <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#aurenNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <a class="navbar-brand m-0 fw-bold" href="index.html">AUREN</a>
+        </div>
+
+        <!-- CENTER SEARCH -->
+        <div class="mobile-search flex-grow-1 px-3">
+          <input type="text" class="search-input-nav text-center" id="searchInputNavMobile"
+            placeholder="Search products...">
+        </div>
+
+        <!-- RIGHT -->
+        <div class="d-flex align-items-center gap-3">
+          <a href="wishlist.html" class="text-dark">
+            <i class="bi bi-heart fs-5"></i>
+          </a>
+
+          <a href="cart.html" class="text-dark">
+            <i class="fa-solid fa-bag-shopping fs-5"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- DESKTOP LOGO -->
+      <a class="navbar-brand fw-bold d-none d-lg-block px-3 px-md-4 px-lg-5" href="index.html">AUREN</a>
+
+      <!-- COLLAPSE MENU -->
+      <div class="collapse navbar-collapse justify-content-lg-between mt-4 mt-lg-0" id="aurenNavbar">
+
+        <ul class="navbar-nav text-center text-lg-start gap-lg-4">
+          <li class="nav-item"><a class="nav-link active" href="women.html">Women</a></li>
           <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
           <li class="nav-item"><a class="nav-link" href="accessories.html">Accessories</a></li>
           <li class="nav-item"><a class="nav-link" href="newin.html">New In</a></li>
           <li class="nav-item"><a class="nav-link" href="sale.html">Sale</a></li>
         </ul>
-      </div>
 
-      <!-- Right Icons with Functionality -->
-      <div class="d-flex align-items-center gap-4">
-        <div class="search-container position-relative">
-          <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
-          <div class="search-bar-wrapper" id="searchBarWrapper">
-            <input type="text" class="search-input-nav" id="searchInputNav" placeholder="Search products...">
+        <!-- Desktop Icons -->
+        <div class="d-none d-lg-flex align-items-center gap-4">
+
+          <div class="search-container position-relative">
+            <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
+            <div class="search-bar-wrapper" id="searchBarWrapper">
+              <input type="text" class="search-input-nav" id="searchInputNav" placeholder="Search products...">
+            </div>
           </div>
+
+          <a href="account.html" class="text-dark">
+            <i class="fa-regular fa-user"></i>
+          </a>
+
+          <a href="wishlist.html" class="position-relative text-dark">
+            <i class="bi bi-heart fs-5"></i>
+            <span class="badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+              0
+            </span>
+          </a>
+
+          <a href="cart.html" class="position-relative text-dark">
+            <i class="fa-solid fa-bag-shopping fs-5"></i>
+            <span class="badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+              0
+            </span>
+          </a>
+
         </div>
-        <a href="account.html" class="text-dark">
-          <i class="fa-regular fa-user" id="userIcon" style="cursor: pointer;"></i>
-        </a>
-        <a href="wishlist.html" class="position-relative text-dark">
-          <i class="bi bi-heart fs-5"></i>
-          <span class="wishlist-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
-            0
-          </span>
-        </a>
-        <a href="cart.html" class="position-relative text-dark">
-          <i class="fa-solid fa-bag-shopping fs-5"></i>
-          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
-            0
-          </span>
-        </a>
+
       </div>
     </div>
   </nav>
@@ -860,6 +935,50 @@
       </div>
     </div>
   </footer>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileFilter">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Filters</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body">
+
+      <div class="filter-group">
+        <h6>Category</h6>
+        <ul>
+          <li><input type="checkbox" class="category-filter" value="blazer">Blazers</li>
+          <li><input type="checkbox" class="category-filter" value="dress">Dresses</li>
+          <li><input type="checkbox" class="category-filter" value="trousers">Trousers</li>
+          <li><input type="checkbox" class="category-filter" value="outerwear">Outerwear</li>
+        </ul>
+      </div>
+
+      <div class="filter-group mt-4">
+        <h6>Price</h6>
+        <ul>
+          <li><input type="checkbox" class="price-filter" value="0-9999">₹0 - ₹9,999</li>
+          <li><input type="checkbox" class="price-filter" value="10000-14999">₹10,000 - ₹14,999</li>
+          <li><input type="checkbox" class="price-filter" value="15000-999999">₹15,000+</li>
+        </ul>
+      </div>
+
+      <div class="filter-group mt-4">
+        <h6>Size</h6>
+        <ul>
+          <li><input type="checkbox" class="size-filter" value="S">S</li>
+          <li><input type="checkbox" class="size-filter" value="M">M</li>
+          <li><input type="checkbox" class="size-filter" value="L">L</li>
+          <li><input type="checkbox" class="size-filter" value="XL">XL</li>
+        </ul>
+      </div>
+
+      <!-- Clear All inside tab -->
+      <button id="clearFiltersMobile" class="auren-btn-clear w-100 mt-4">
+        Clear All
+      </button>
+
+    </div>
+  </div>
 </body>
 
 </html>

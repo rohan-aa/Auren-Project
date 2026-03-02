@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
 
   <style>
-    /* Same styles as women/sale page */
+    /* Same styles as sale page */
     .filter-box {
       padding: 24px;
       border: 1px solid var(--soft-gold);
@@ -57,12 +57,12 @@
 
     .product-card {
       background: var(--ivory-mist);
+      border-radius: 0px !important;
       overflow: hidden;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
       height: 100%;
       display: flex;
       flex-direction: column;
-      opacity: 0;
       transform: translateY(15px);
       transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
       cursor: pointer;
@@ -73,12 +73,11 @@
       transform: translateY(0);
     }
 
-
     .product-img {
       position: relative;
       width: 100%;
-      border-radius: 0px !important;
       overflow: hidden;
+      border-radius: 0px !important;
     }
 
     .product-img::after {
@@ -162,7 +161,7 @@
       margin-left: 4px;
     }
 
-    /* Subtle prefix for old price */
+    /* If you want even more subtle, you can add this */
     .old-price::before {
       content: " ";
       font-size: 10px;
@@ -478,6 +477,17 @@
       font-weight: 600;
     }
 
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    @media (max-width: 576px) {
+      .product-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .search-bar-wrapper.active {
@@ -493,59 +503,188 @@
       .search-results-grid {
         padding: 20px;
       }
+
+      .product-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+
+    @media (max-width: 992px) {
+
+      .page-title {
+        font-size: 32px;
+      }
+
+      .product-info h6 {
+        font-size: 14px;
+        text-align: start;
+      }
+
+      .product-info p {
+        font-size: 14px;
+      }
+
+      .add-cart-btn {
+        width: 100%;
+        height: 50%;
+      }
+
+      .auren-toolbar {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .auren-sort {
+        width: 20%;
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background: var(--soft-gold);
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 991px) {
+
+      .navbar-collapse {
+        background: var(--ivory-mist);
+        padding: 20px 0;
+      }
+
+      .navbar-nav .nav-link {
+        font-size: 16px;
+        letter-spacing: 1px;
+      }
+
+      .navbar-nav {
+        gap: 0 !important;
+      }
+
+      .navbar {
+        padding: 12px 0;
+      }
+
+      .auren-navbar .container-fluid {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .mobile-search input {
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 13px;
+        border: 1px solid var(--soft-gold);
+        outline: none;
+        border-radius: 30px;
+      }
+
+      /* Reduce logo padding in mobile */
+      .navbar-brand {
+        padding-left: 0 !important;
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
-    <div class="container-fluid px-5">
-      <!-- Logo -->
-      <a class="navbar-brand fw-bold pe-5" href="index.html">
-        AUREN
-      </a>
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top py-3 auren-navbar">
+    <div class="container-fluid px-lg-5 px-3">
 
-      <!-- Toggle -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#aurenNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <!-- MOBILE NAV ROW -->
+      <div class="d-flex align-items-center justify-content-between w-100 d-lg-none">
 
-      <!-- Center Menu -->
-      <div class="collapse navbar-collapse justify-content-start" id="aurenNavbar">
-        <ul class="navbar-nav gap-4">
-          <li class="nav-item"><a class="nav-link" href="women.html">Women</a></li>
-          <li class="nav-item"><a class="nav-link active" href="men.html">Men</a></li>
+        <!-- LEFT -->
+        <div class="d-flex align-items-center gap-3">
+          <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#aurenNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <a class="navbar-brand m-0 fw-bold" href="index.html">AUREN</a>
+        </div>
+
+        <!-- CENTER SEARCH -->
+        <div class="mobile-search flex-grow-1 px-3">
+          <input type="text" class="search-input-nav text-center" id="searchInputNavMobile"
+            placeholder="Search products...">
+        </div>
+
+        <!-- RIGHT -->
+        <div class="d-flex align-items-center gap-3">
+          <a href="wishlist.html" class="text-dark">
+            <i class="bi bi-heart fs-5"></i>
+          </a>
+
+          <a href="cart.html" class="text-dark">
+            <i class="fa-solid fa-bag-shopping fs-5"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- DESKTOP LOGO -->
+      <a class="navbar-brand fw-bold d-none d-lg-block px-3 px-md-4 px-lg-5" href="index.html">AUREN</a>
+
+      <!-- COLLAPSE MENU -->
+      <div class="collapse navbar-collapse justify-content-lg-between mt-4 mt-lg-0" id="aurenNavbar">
+
+        <ul class="navbar-nav text-center text-lg-start gap-lg-4">
+          <li class="nav-item"><a class="nav-link active" href="women.html">Women</a></li>
+          <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
           <li class="nav-item"><a class="nav-link" href="accessories.html">Accessories</a></li>
           <li class="nav-item"><a class="nav-link" href="newin.html">New In</a></li>
           <li class="nav-item"><a class="nav-link" href="sale.html">Sale</a></li>
         </ul>
-      </div>
 
-      <!-- Right Icons with Search and User Functionality -->
-      <div class="d-flex align-items-center gap-4">
-        <div class="search-container position-relative">
-          <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
-          <div class="search-bar-wrapper" id="searchBarWrapper">
-            <input type="text" class="search-input-nav" id="searchInputNav" placeholder="Search products...">
+        <!-- Desktop Icons -->
+        <div class="d-none d-lg-flex align-items-center gap-4">
+
+          <div class="search-container position-relative">
+            <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
+            <div class="search-bar-wrapper" id="searchBarWrapper">
+              <input type="text" class="search-input-nav" id="searchInputNav" placeholder="Search products...">
+            </div>
           </div>
+
+          <a href="account.html" class="text-dark">
+            <i class="fa-regular fa-user"></i>
+          </a>
+
+          <a href="wishlist.html" class="position-relative text-dark">
+            <i class="bi bi-heart fs-5"></i>
+            <span class="badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+              0
+            </span>
+          </a>
+
+          <a href="cart.html" class="position-relative text-dark">
+            <i class="fa-solid fa-bag-shopping fs-5"></i>
+            <span class="badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
+              0
+            </span>
+          </a>
+
         </div>
-        <a href="account.html" class="text-dark">
-          <i class="fa-regular fa-user"></i>
-        </a>
-        <a href="wishlist.html" class="position-relative text-dark">
-          <i class="bi bi-heart fs-5"></i>
-          <span class="wishlist-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
-            0
-          </span>
-        </a>
-        <a href="cart.html" class="position-relative text-dark">
-          <i class="fa-solid fa-bag-shopping fs-5"></i>
-          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">
-            0
-          </span>
-        </a>
+
       </div>
     </div>
   </nav>
@@ -577,7 +716,7 @@
     <section class="product-listing py-5">
       <div class="container">
         <div class="row">
-          <div class="col-lg-3 mb-4">
+          <div class="col-lg-3 mb-4 d-none d-lg-block">
             <div class="filter-box">
               <h5 class="filter-title">Filters</h5>
               <div class="filter-group">
@@ -611,17 +750,22 @@
           </div>
 
           <div class="col-lg-9">
-            <div class="d-flex justify-content-between align-items-center mb-4 auren-toolbar">
-              <button id="clearFilters" class="auren-btn-clear">
-                Clear All
+            <!-- MOBILE TOOLBAR -->
+            <div class="d-flex justify-content-between align-items-center mb-4 d-lg-none">
+
+              <!-- Filters Button -->
+              <button class="auren-btn-clear" data-bs-toggle="offcanvas" data-bs-target="#mobileFilter">
+                Filters
               </button>
-              <select id="sortPrice" class="auren-sort">
+
+              <!-- Sort Dropdown -->
+              <select id="sortPriceMobile" class="auren-sort">
                 <option value="">Sort By</option>
                 <option value="low-high">Price: Low to High</option>
                 <option value="high-low">Price: High to Low</option>
               </select>
-            </div>
 
+            </div>
             <div class="row g-4" id="productContainer">
               <!-- Men Products with old prices (NO SALE BADGES) -->
               <div class="col-md-6 col-lg-3 product-col" data-id="m1" data-price="14990" data-old-price="19990"
@@ -1169,153 +1313,208 @@
       </div>
     </div>
   </footer>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Global Variables
-        const productsPerPage = 8;
-        const productContainer = document.getElementById("productContainer");
-        const productColumns = document.querySelectorAll("#productContainer > div");
 
-        const priceFilters = document.querySelectorAll(".price-filter");
-        const categoryFilters = document.querySelectorAll(".category-filter");
-        const sizeFilters = document.querySelectorAll(".size-filter");
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileFilter">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Filters</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
 
-        const clearBtn = document.getElementById("clearFilters");
-        const sortSelect = document.getElementById("sortPrice");
+    <div class="offcanvas-body">
 
-        let filteredProducts = [...productColumns];
-        let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      <div class="filter-group">
+        <h6>Category</h6>
+        <ul>
+          <li><input type="checkbox" class="category-filter" value="blazer">Blazers</li>
+          <li><input type="checkbox" class="category-filter" value="dress">Shirts</li>
+          <li><input type="checkbox" class="category-filter" value="trousers">Trousers</li>
+          <li><input type="checkbox" class="category-filter" value="outerwear">Outerwear</li>
+          <li><input type="checkbox" class="category-filter" value="outerwear">Knitwear</li>
+        </ul>
+      </div>
 
-        // ============== ALL PRODUCTS DATA FOR SEARCH ==============
-        const allProducts = [
-          // Sale page products
-          { id: "1", name: "Signature Blazer", price: 5399, oldPrice: 8999, image: "assets/img/s1.jpg", category: "blazer", main: "men" },
-          { id: "2", name: "Utility Overshirt", price: 3249, oldPrice: 4999, image: "assets/img/s2 (2).jpg", category: "shirt", main: "men" },
-          { id: "3", name: "Tailored Trousers", price: 2699, oldPrice: 4499, image: "assets/img/s3 (2).jpg", category: "trousers", main: "men" },
-          { id: "4", name: "Cashmere Sweater", price: 4899, oldPrice: 6999, image: "assets/img/s4.jpg", category: "sweater", main: "men" },
-          { id: "5", name: "Black Graphite Shirt", price: 2399, oldPrice: 3999, image: "assets/img/s5.jpg", category: "shirt", main: "men" },
-          { id: "6", name: "Tailored Blazer Set", price: 6499, oldPrice: 9999, image: "assets/img/s6.jpg", category: "blazer", main: "women" },
-          { id: "7", name: "Deep Olive Dress", price: 4224, oldPrice: 6499, image: "assets/img/s7.jpg", category: "dress", main: "women" },
-          { id: "8", name: "Warm Sand Co-ord", price: 3899, oldPrice: 5999, image: "assets/img/s8.jpg", category: "dress", main: "women" },
-          { id: "9", name: "Black Graphite Dress", price: 5099, oldPrice: 8499, image: "assets/img/s9.jpg", category: "dress", main: "women" },
-          { id: "10", name: "Gray Wide-Leg Pants", price: 2999, oldPrice: 4999, image: "assets/img/s10.jpg", category: "trousers", main: "women" },
-          { id: "11", name: "Dial Signature Watch", price: 8499, oldPrice: 12999, image: "assets/img/s11.jpg", category: "watch", main: "accessories" },
-          { id: "12", name: "Black Leather Belt", price: 1249, oldPrice: 2499, image: "assets/img/s12.jpg", category: "belt", main: "accessories" },
-          { id: "13", name: "Noir Sunglasses", price: 3249, oldPrice: 4999, image: "assets/img/s13.jpg", category: "sunglasses", main: "accessories" },
-          { id: "14", name: "Bronze Handbag", price: 5399, oldPrice: 8999, image: "assets/img/s14.jpg", category: "bag", main: "accessories" },
-          { id: "15", name: "Ivory Sneakers", price: 4549, oldPrice: 6999, image: "assets/img/s15.jpg", category: "shoes", main: "accessories" },
-          { id: "16", name: "Deep Olive Scarf", price: 1949, oldPrice: 2999, image: "assets/img/s16.jpg", category: "scarf", main: "accessories" },
+      <div class="filter-group mt-4">
+        <h6>Price</h6>
+        <ul>
+          <li><input type="checkbox" class="price-filter" value="0-9999">₹0 - ₹9,999</li>
+          <li><input type="checkbox" class="price-filter" value="10000-14999">₹10,000 - ₹14,999</li>
+          <li><input type="checkbox" class="price-filter" value="15000-999999">₹15,000+</li>
+        </ul>
+      </div>
 
-          // Men page products
-          { id: "m1", name: "Structured Blazer", price: 14990, oldPrice: 19990, image: "assets/img/mp1.jpg", category: "blazer", main: "men" },
-          { id: "m2", name: "Tailored Blazer", price: 13490, oldPrice: 17990, image: "assets/img/mp2.jpg", category: "blazer", main: "men" },
-          { id: "m3", name: "White Poplin Shirt", price: 8990, oldPrice: 11990, image: "assets/img/mp3.jpg", category: "shirt", main: "men" },
-          { id: "m4", name: "Black Minimal Shirt", price: 9990, oldPrice: 12990, image: "assets/img/mp4.jpg", category: "shirt", main: "men" },
-          { id: "m5", name: "Tailored Trouser", price: 10990, oldPrice: 14990, image: "assets/img/mp5.jpg", category: "trousers", main: "men" },
-          { id: "m6", name: "Sand Trouser", price: 9990, oldPrice: 13990, image: "assets/img/mp6.jpg", category: "trousers", main: "men" },
-          { id: "m7", name: "Cashmere Crewneck", price: 13990, oldPrice: 18990, image: "assets/img/mp7.jpg", category: "outerwear", main: "men" },
-          { id: "m8", name: "Knit Sweater", price: 11990, oldPrice: 15990, image: "assets/img/mp8.jpg", category: "knitwear", main: "men" },
-          { id: "m9", name: "Slim Blazer", price: 15990, oldPrice: 21990, image: "assets/img/mp9.jpg", category: "blazer", main: "men" },
-          { id: "m10", name: "Textured Blazer", price: 16490, oldPrice: 22990, image: "assets/img/mp10.jpg", category: "blazer", main: "men" },
-          { id: "m11", name: "Grey Formal Shirt", price: 9490, oldPrice: 12990, image: "assets/img/mp11.jpg", category: "shirt", main: "men" },
-          { id: "m12", name: "Olive Relaxed Shirt", price: 8490, oldPrice: 11990, image: "assets/img/mp12.jpg", category: "shirt", main: "men" },
-          { id: "m13", name: "Wool Trousers", price: 12490, oldPrice: 16990, image: "assets/img/mp13.jpg", category: "trousers", main: "men" },
-          { id: "m14", name: "Straight Fit Trousers", price: 11490, oldPrice: 15990, image: "assets/img/mp14.jpg", category: "trousers", main: "men" },
-          { id: "m15", name: "Wool Overcoat", price: 22990, oldPrice: 29990, image: "assets/img/mp15.jpg", category: "outerwear", main: "men" },
-          { id: "m16", name: "Trench Coat", price: 19990, oldPrice: 26990, image: "assets/img/mp16.jpg", category: "outerwear", main: "men" },
-          { id: "m17", name: "Minimal Turtleneck", price: 10990, oldPrice: 14990, image: "assets/img/mp17.jpg", category: "outerwear", main: "men" },
-          { id: "m18", name: "Beige Blazer", price: 17990, oldPrice: 23990, image: "assets/img/mp18.jpg", category: "blazer", main: "men" },
-          { id: "m19", name: "Relaxed Trousers", price: 10490, oldPrice: 14490, image: "assets/img/mp19.jpg", category: "trousers", main: "men" },
-          { id: "m20", name: "Brown Formal Shirt", price: 9990, oldPrice: 13990, image: "assets/img/mp20.jpg", category: "shirt", main: "men" },
-          { id: "m21", name: "Knit Cardigan", price: 12990, oldPrice: 16990, image: "assets/img/mp21.jpg", category: "knitwear", main: "men" },
-          { id: "m22", name: "Overshirt Jacket", price: 14490, oldPrice: 19490, image: "assets/img/mp22.jpg", category: "outerwear", main: "men" },
-          { id: "m23", name: "Ivory Linen Shirt", price: 8990, oldPrice: 12990, image: "assets/img/mp23.jpg", category: "shirt", main: "men" },
-          { id: "m24", name: "Tailored Waistcoat", price: 11990, oldPrice: 15990, image: "assets/img/mp24.jpg", category: "outerwear", main: "men" }
-        ];
+      <div class="filter-group mt-4">
+        <h6>Size</h6>
+        <ul>
+          <li><input type="checkbox" class="size-filter" value="S">S</li>
+          <li><input type="checkbox" class="size-filter" value="M">M</li>
+          <li><input type="checkbox" class="size-filter" value="L">L</li>
+          <li><input type="checkbox" class="size-filter" value="XL">XL</li>
+        </ul>
+      </div>
 
-        // Store all products in localStorage for other pages to use
-        localStorage.setItem("allProducts", JSON.stringify(allProducts));
+      <!-- Clear All inside tab -->
+      <button id="clearFiltersMobile" class="auren-btn-clear w-100 mt-4">
+        Clear All
+      </button>
 
-        // Update Wishlist Count
-        function updateWishlistCount() {
-          document.querySelectorAll(".wishlist-count").forEach(el => {
-            el.textContent = wishlist.length;
-          });
-        }
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Global Variables
+      const productsPerPage = 8;
+      const productContainer = document.getElementById("productContainer");
+      const productColumns = document.querySelectorAll("#productContainer > div");
 
-        // Update Cart Count
-        function updateCartCount() {
-          const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-          document.querySelectorAll(".cart-count").forEach(el => {
-            el.textContent = totalItems;
-          });
-        }
+      const priceFilters = document.querySelectorAll(".price-filter");
+      const categoryFilters = document.querySelectorAll(".category-filter");
+      const sizeFilters = document.querySelectorAll(".size-filter");
 
-        // Toast notification
-        function showToast(message) {
-          const toast = document.createElement("div");
-          toast.className = "toast-notification";
-          toast.innerHTML = `
+      const clearBtn = document.getElementById("clearFilters");
+      const sortSelect = document.getElementById("sortPrice");
+
+      let filteredProducts = [...productColumns];
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // ============== ALL PRODUCTS DATA FOR SEARCH ==============
+      const allProducts = [
+        // Sale page products
+        { id: "1", name: "Signature Blazer", price: 5399, oldPrice: 8999, image: "assets/img/s1.jpg", category: "blazer", main: "men" },
+        { id: "2", name: "Utility Overshirt", price: 3249, oldPrice: 4999, image: "assets/img/s2 (2).jpg", category: "shirt", main: "men" },
+        { id: "3", name: "Tailored Trousers", price: 2699, oldPrice: 4499, image: "assets/img/s3 (2).jpg", category: "trousers", main: "men" },
+        { id: "4", name: "Cashmere Sweater", price: 4899, oldPrice: 6999, image: "assets/img/s4.jpg", category: "sweater", main: "men" },
+        { id: "5", name: "Black Graphite Shirt", price: 2399, oldPrice: 3999, image: "assets/img/s5.jpg", category: "shirt", main: "men" },
+        { id: "6", name: "Tailored Blazer Set", price: 6499, oldPrice: 9999, image: "assets/img/s6.jpg", category: "blazer", main: "women" },
+        { id: "7", name: "Deep Olive Dress", price: 4224, oldPrice: 6499, image: "assets/img/s7.jpg", category: "dress", main: "women" },
+        { id: "8", name: "Warm Sand Co-ord", price: 3899, oldPrice: 5999, image: "assets/img/s8.jpg", category: "dress", main: "women" },
+        { id: "9", name: "Black Graphite Dress", price: 5099, oldPrice: 8499, image: "assets/img/s9.jpg", category: "dress", main: "women" },
+        { id: "10", name: "Gray Wide-Leg Pants", price: 2999, oldPrice: 4999, image: "assets/img/s10.jpg", category: "trousers", main: "women" },
+        { id: "11", name: "Dial Signature Watch", price: 8499, oldPrice: 12999, image: "assets/img/s11.jpg", category: "watch", main: "accessories" },
+        { id: "12", name: "Black Leather Belt", price: 1249, oldPrice: 2499, image: "assets/img/s12.jpg", category: "belt", main: "accessories" },
+        { id: "13", name: "Noir Sunglasses", price: 3249, oldPrice: 4999, image: "assets/img/s13.jpg", category: "sunglasses", main: "accessories" },
+        { id: "14", name: "Bronze Handbag", price: 5399, oldPrice: 8999, image: "assets/img/s14.jpg", category: "bag", main: "accessories" },
+        { id: "15", name: "Ivory Sneakers", price: 4549, oldPrice: 6999, image: "assets/img/s15.jpg", category: "shoes", main: "accessories" },
+        { id: "16", name: "Deep Olive Scarf", price: 1949, oldPrice: 2999, image: "assets/img/s16.jpg", category: "scarf", main: "accessories" },
+
+        // Men page products
+        { id: "m1", name: "Structured Blazer", price: 14990, oldPrice: 19990, image: "assets/img/mp1.jpg", category: "blazer", main: "men" },
+        { id: "m2", name: "Tailored Blazer", price: 13490, oldPrice: 17990, image: "assets/img/mp2.jpg", category: "blazer", main: "men" },
+        { id: "m3", name: "White Poplin Shirt", price: 8990, oldPrice: 11990, image: "assets/img/mp3.jpg", category: "shirt", main: "men" },
+        { id: "m4", name: "Black Minimal Shirt", price: 9990, oldPrice: 12990, image: "assets/img/mp4.jpg", category: "shirt", main: "men" },
+        { id: "m5", name: "Tailored Trouser", price: 10990, oldPrice: 14990, image: "assets/img/mp5.jpg", category: "trousers", main: "men" },
+        { id: "m6", name: "Sand Trouser", price: 9990, oldPrice: 13990, image: "assets/img/mp6.jpg", category: "trousers", main: "men" },
+        { id: "m7", name: "Cashmere Crewneck", price: 13990, oldPrice: 18990, image: "assets/img/mp7.jpg", category: "outerwear", main: "men" },
+        { id: "m8", name: "Knit Sweater", price: 11990, oldPrice: 15990, image: "assets/img/mp8.jpg", category: "knitwear", main: "men" },
+        { id: "m9", name: "Slim Blazer", price: 15990, oldPrice: 21990, image: "assets/img/mp9.jpg", category: "blazer", main: "men" },
+        { id: "m10", name: "Textured Blazer", price: 16490, oldPrice: 22990, image: "assets/img/mp10.jpg", category: "blazer", main: "men" },
+        { id: "m11", name: "Grey Formal Shirt", price: 9490, oldPrice: 12990, image: "assets/img/mp11.jpg", category: "shirt", main: "men" },
+        { id: "m12", name: "Olive Relaxed Shirt", price: 8490, oldPrice: 11990, image: "assets/img/mp12.jpg", category: "shirt", main: "men" },
+        { id: "m13", name: "Wool Trousers", price: 12490, oldPrice: 16990, image: "assets/img/mp13.jpg", category: "trousers", main: "men" },
+        { id: "m14", name: "Straight Fit Trousers", price: 11490, oldPrice: 15990, image: "assets/img/mp14.jpg", category: "trousers", main: "men" },
+        { id: "m15", name: "Wool Overcoat", price: 22990, oldPrice: 29990, image: "assets/img/mp15.jpg", category: "outerwear", main: "men" },
+        { id: "m16", name: "Trench Coat", price: 19990, oldPrice: 26990, image: "assets/img/mp16.jpg", category: "outerwear", main: "men" },
+        { id: "m17", name: "Minimal Turtleneck", price: 10990, oldPrice: 14990, image: "assets/img/mp17.jpg", category: "outerwear", main: "men" },
+        { id: "m18", name: "Beige Blazer", price: 17990, oldPrice: 23990, image: "assets/img/mp18.jpg", category: "blazer", main: "men" },
+        { id: "m19", name: "Relaxed Trousers", price: 10490, oldPrice: 14490, image: "assets/img/mp19.jpg", category: "trousers", main: "men" },
+        { id: "m20", name: "Brown Formal Shirt", price: 9990, oldPrice: 13990, image: "assets/img/mp20.jpg", category: "shirt", main: "men" },
+        { id: "m21", name: "Knit Cardigan", price: 12990, oldPrice: 16990, image: "assets/img/mp21.jpg", category: "knitwear", main: "men" },
+        { id: "m22", name: "Overshirt Jacket", price: 14490, oldPrice: 19490, image: "assets/img/mp22.jpg", category: "outerwear", main: "men" },
+        { id: "m23", name: "Ivory Linen Shirt", price: 8990, oldPrice: 12990, image: "assets/img/mp23.jpg", category: "shirt", main: "men" },
+        { id: "m24", name: "Tailored Waistcoat", price: 11990, oldPrice: 15990, image: "assets/img/mp24.jpg", category: "outerwear", main: "men" }
+      ];
+
+      // Store all products in localStorage for other pages to use
+      localStorage.setItem("allProducts", JSON.stringify(allProducts));
+
+      // Update Wishlist Count
+      function updateWishlistCount() {
+        document.querySelectorAll(".wishlist-count").forEach(el => {
+          el.textContent = wishlist.length;
+        });
+      }
+
+      // Update Cart Count
+      function updateCartCount() {
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll(".cart-count").forEach(el => {
+          el.textContent = totalItems;
+        });
+      }
+
+      // Toast notification
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast-notification";
+        toast.innerHTML = `
             <i class="bi bi-check-circle-fill"></i>
             <span>${message}</span>
           `;
-          document.body.appendChild(toast);
+        document.body.appendChild(toast);
 
-          setTimeout(() => {
-            toast.classList.add("show");
-          }, 100);
+        setTimeout(() => {
+          toast.classList.add("show");
+        }, 100);
 
-          setTimeout(() => {
-            toast.classList.remove("show");
-            setTimeout(() => toast.remove(), 300);
-          }, 3000);
-        }
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
 
-        // ============== SEARCH FUNCTIONALITY ==============
-        const searchIcon = document.getElementById('searchIcon');
-        const searchBarWrapper = document.getElementById('searchBarWrapper');
-        const searchInputNav = document.getElementById('searchInputNav');
-        const searchResultsGrid = document.getElementById('searchResultsGrid');
-        const searchResultsContainer = document.getElementById('searchResultsContainer');
-        const searchResultsCount = document.getElementById('searchResultsCount');
-        const closeSearchResults = document.getElementById('closeSearchResults');
+      // ============== SEARCH FUNCTIONALITY ==============
+      const searchIcon = document.getElementById('searchIcon');
+      const searchBarWrapper = document.getElementById('searchBarWrapper');
+      const searchInputNav = document.getElementById('searchInputNav');
+      const searchInputNavMobile = document.getElementById('searchInputNavMobile');
+      const searchResultsGrid = document.getElementById('searchResultsGrid');
+      const searchResultsContainer = document.getElementById('searchResultsContainer');
+      const searchResultsCount = document.getElementById('searchResultsCount');
+      const closeSearchResults = document.getElementById('closeSearchResults');
 
-        let searchTimeout;
+      // ✅ Clear everything on refresh
+      if (searchInputNav) searchInputNav.value = "";
+      if (searchInputNavMobile) searchInputNavMobile.value = "";
 
-        // Ensure search bar starts empty
-        if (searchInputNav) {
-          searchInputNav.value = '';
-        }
+      if (searchResultsGrid) {
+        searchResultsGrid.classList.remove("show");
+      }
 
-        if (searchIcon) {
-          // Toggle search bar
-          searchIcon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            searchBarWrapper.classList.toggle('active');
-            if (searchBarWrapper.classList.contains('active')) {
-              searchInputNav.focus();
-            }
-          });
-        }
+      let searchTimeout;
 
-        function triggerSearch(query) {
-          const results = allProducts.filter(product =>
-            product.name.toLowerCase().includes(query.toLowerCase()) ||
-            product.category.toLowerCase().includes(query.toLowerCase())
-          );
+      // Ensure search bar starts empty
+      if (searchInputNav) {
+        searchInputNav.value = '';
+      }
 
-          searchResultsCount.textContent =
-            `${results.length} product${results.length !== 1 ? 's' : ''} found`;
+      if (searchIcon) {
+        // Toggle search bar
+        searchIcon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          searchBarWrapper.classList.toggle('active');
+          if (searchBarWrapper.classList.contains('active')) {
+            searchInputNav.focus();
+          }
+        });
+      }
 
-          if (results.length === 0) {
-            searchResultsContainer.innerHTML =
-              '<div class="col-12 text-center py-5"><p style="color: var(--stone-gray);">No products found matching your search.</p></div>';
-          } else {
-            searchResultsContainer.innerHTML = results.map(product => {
-              const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+      function triggerSearch(query) {
+        const results = allProducts.filter(product =>
+          product.name.toLowerCase().includes(query.toLowerCase()) ||
+          product.category.toLowerCase().includes(query.toLowerCase())
+        );
 
-              return `
+        searchResultsCount.textContent =
+          `${results.length} product${results.length !== 1 ? 's' : ''} found`;
+
+        if (results.length === 0) {
+          searchResultsContainer.innerHTML =
+            '<div class="col-12 text-center py-5"><p style="color: var(--stone-gray);">No products found matching your search.</p></div>';
+        } else {
+          searchResultsContainer.innerHTML = results.map(product => {
+            const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+
+            return `
                 <div class="col-md-6 col-lg-3">
                   <div class="search-product-card" data-id="${product.id}">
                     <img src="${product.image}" alt="${product.name}" class="img-fluid">
@@ -1330,334 +1529,315 @@
                   </div>
                 </div>
               `;
-            }).join('');
+          }).join('');
 
-            // Add click handlers for search results
-            document.querySelectorAll('.search-product-card').forEach(card => {
-              card.addEventListener('click', function () {
-                const productId = this.dataset.id;
-                const selectedProduct = allProducts.find(p => p.id === productId);
-                localStorage.setItem("currentProduct", JSON.stringify(selectedProduct));
-                window.location.href = `product-detail.html?id=${productId}`;
-              });
-            });
-          }
-
-          searchResultsGrid.classList.add('show');
-        }
-
-        // Close search bar when clicking outside
-        document.addEventListener('click', (e) => {
-          if (searchBarWrapper && !searchBarWrapper.contains(e.target) && !searchIcon.contains(e.target)) {
-            searchBarWrapper.classList.remove('active');
-          }
-        });
-
-        // Close search results
-        if (closeSearchResults) {
-          closeSearchResults.addEventListener('click', () => {
-            searchResultsGrid.classList.remove('show');
-            searchBarWrapper.classList.remove('active');
-            if (searchInputNav) {
-              searchInputNav.value = '';
-            }
-          });
-        }
-
-        // Live search
-        if (searchInputNav) {
-          searchInputNav.addEventListener('input', function () {
-            clearTimeout(searchTimeout);
-            const query = this.value.trim();
-
-            if (query.length < 2) {
-              searchResultsGrid.classList.remove('show');
-              return;
-            }
-
-            searchTimeout = setTimeout(() => {
-              triggerSearch(query);
-            }, 300);
-          });
-
-          // Handle enter key
-          searchInputNav.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              const query = this.value.trim();
-              if (query.length >= 2) {
-                triggerSearch(query);
-              }
-            }
-          });
-        }
-
-        // Toggle Wishlist Function
-        function toggleWishlist(productCol) {
-          const productId = productCol.dataset.id;
-          const icon = productCol.querySelector(".wishlist-btn i");
-
-          const productData = {
-            id: productId,
-            name: productCol.querySelector("h6").innerText,
-            price: productCol.dataset.price,
-            oldPrice: productCol.dataset.oldPrice,
-            image: productCol.querySelector("img").getAttribute("src")
-          };
-
-          const existingIndex = wishlist.findIndex(p => p.id === productId);
-
-          if (existingIndex !== -1) {
-            wishlist.splice(existingIndex, 1);
-            icon.classList.remove("bi-heart-fill");
-            icon.classList.add("bi-heart");
-          } else {
-            wishlist.push(productData);
-            icon.classList.remove("bi-heart");
-            icon.classList.add("bi-heart-fill");
-          }
-
-          localStorage.setItem("wishlist", JSON.stringify(wishlist));
-          updateWishlistCount();
-          window.dispatchEvent(new Event('wishlistUpdated'));
-        }
-
-        // Add to cart function
-        function addToCart(productCol) {
-          const productId = productCol.dataset.id;
-          const productData = {
-            id: productId,
-            name: productCol.querySelector("h6").innerText,
-            price: parseInt(productCol.dataset.price),
-            oldPrice: parseInt(productCol.dataset.oldPrice),
-            image: productCol.querySelector("img").getAttribute("src"),
-            quantity: 1
-          };
-
-          const existingItem = cart.find(item => item.id === productId);
-
-          if (existingItem) {
-            existingItem.quantity += 1;
-          } else {
-            cart.push(productData);
-          }
-
-          localStorage.setItem("cart", JSON.stringify(cart));
-          updateCartCount();
-          showToast(`${productData.name} added to cart!`);
-        }
-
-        // Direct click handler for wishlist buttons
-        document.querySelectorAll(".wishlist-btn").forEach(btn => {
-          btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const productCol = this.closest(".product-col");
-            if (productCol) {
-              toggleWishlist(productCol);
-            }
-          });
-        });
-
-        // Add click handlers for Add to Cart buttons
-        document.querySelectorAll(".add-cart-btn").forEach(btn => {
-          btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const productCol = this.closest(".product-col");
-            if (productCol) {
-              addToCart(productCol);
-            }
-          });
-        });
-
-        // Product card click to open detail page
-        document.querySelectorAll(".product-card").forEach(card => {
-          card.addEventListener("click", function (e) {
-            if (e.target.closest(".wishlist-btn") || e.target.closest(".add-cart-btn")) {
-              return;
-            }
-
-            const productCol = this.closest(".product-col");
-            if (productCol) {
-              const productId = productCol.dataset.id;
-              const productMain = productCol.dataset.main;
-
-              const productData = {
-                id: productId,
-                name: productCol.querySelector("h6").innerText,
-                price: productCol.dataset.price,
-                oldPrice: productCol.dataset.oldPrice,
-                image: productCol.querySelector("img").getAttribute("src"),
-                main: productMain,
-                category: productCol.dataset.category,
-                size: productCol.dataset.size,
-                description: getProductDescription(productCol.dataset.category)
-              };
-
-              localStorage.setItem("currentProduct", JSON.stringify(productData));
+          // Add click handlers for search results
+          document.querySelectorAll('.search-product-card').forEach(card => {
+            card.addEventListener('click', function () {
+              const productId = this.dataset.id;
+              const selectedProduct = allProducts.find(p => p.id === productId);
+              localStorage.setItem("currentProduct", JSON.stringify(selectedProduct));
               window.location.href = `product-detail.html?id=${productId}`;
-            }
+            });
           });
-        });
-
-        // Helper function for product descriptions
-        function getProductDescription(category) {
-          const descriptions = {
-            blazer: "A meticulously crafted blazer that embodies sophistication. Made from premium fabric with perfect tailoring for a confident silhouette.",
-            shirt: "Classic shirt designed for comfort and style. Features high-quality fabric and attention to detail in every stitch.",
-            trousers: "Elegant trousers that combine comfort with style. Perfect for both formal and casual occasions.",
-            outerwear: "Luxuriously soft outerwear made from premium materials. Provides warmth without compromising on style.",
-            knitwear: "Premium knitwear crafted for comfort and elegance. Perfect for layering or wearing on its own."
-          };
-          return descriptions[category] || "Premium quality product from Auren's exclusive collection.";
         }
 
-        // Apply Filters Function
-        function applyFilters() {
-          const selectedPrices = [...priceFilters].filter(cb => cb.checked).map(cb => cb.value);
-          const selectedCategories = [...categoryFilters].filter(cb => cb.checked).map(cb => cb.value);
-          const selectedSizes = [...sizeFilters].filter(cb => cb.checked).map(cb => cb.value);
+        searchResultsGrid.classList.add('show');
+      }
 
-          filteredProducts = [...productColumns].filter(product => {
-            const price = parseInt(product.dataset.price);
-            const category = product.dataset.category;
-            const sizes = product.dataset.size ? product.dataset.size.split(",") : [];
+      // Close search bar when clicking outside
+      document.addEventListener('click', (e) => {
+        if (searchBarWrapper && !searchBarWrapper.contains(e.target) && !searchIcon.contains(e.target)) {
+          searchBarWrapper.classList.remove('active');
+        }
+      });
 
-            const priceMatch = selectedPrices.length === 0 || selectedPrices.some(range => {
-              const [min, max] = range.split("-").map(Number);
-              return price >= min && price <= max;
-            });
+      // Close search results
+      if (closeSearchResults) {
+        closeSearchResults.addEventListener('click', () => {
+          searchResultsGrid.classList.remove('show');
+          searchBarWrapper.classList.remove('active');
+          if (searchInputNav) {
+            searchInputNav.value = '';
+          }
+        });
+      }
 
-            const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(category);
+      // Live search
+      if (searchInputNav) {
+        searchInputNav.addEventListener('input', function () {
+          clearTimeout(searchTimeout);
+          const query = this.value.trim();
 
-            const sizeMatch = selectedSizes.length === 0 || selectedSizes.some(size => sizes.includes(size));
-
-            return priceMatch && categoryMatch && sizeMatch;
-          });
-
-          if (filteredProducts.length === 0) {
-            productColumns.forEach(col => col.style.display = "none");
-            document.querySelector(".pagination").innerHTML = "";
-            if (!document.getElementById("no-products")) {
-              productContainer.insertAdjacentHTML(
-                "beforeend",
-                "<p id='no-products' class='text-center py-5 w-100'>No products found.</p>"
-              );
-            }
+          if (query.length < 2) {
+            searchResultsGrid.classList.remove('show');
             return;
           }
 
-          const noMsg = document.getElementById("no-products");
-          if (noMsg) noMsg.remove();
-
-          applySorting();
-          updatePagination();
-          showPage(1);
-        }
-
-        // Apply Sorting
-        function applySorting() {
-          const sortValue = sortSelect.value;
-
-          if (sortValue === "low-high") {
-            filteredProducts.sort((a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
-          }
-
-          if (sortValue === "high-low") {
-            filteredProducts.sort((a, b) => parseInt(b.dataset.price) - parseInt(a.dataset.price));
-          }
-        }
-
-        // Update Pagination
-        function updatePagination() {
-          const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-          const pagination = document.querySelector(".pagination");
-          pagination.innerHTML = "";
-
-          for (let i = 1; i <= totalPages; i++) {
-            const li = document.createElement("li");
-            li.classList.add("page-item");
-            if (i === 1) li.classList.add("active");
-
-            const a = document.createElement("a");
-            a.classList.add("page-link");
-            a.href = "#";
-            a.innerText = i;
-
-            a.addEventListener("click", function (e) {
-              e.preventDefault();
-              showPage(i);
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            });
-
-            li.appendChild(a);
-            pagination.appendChild(li);
-          }
-        }
-
-        // Show Page
-        function showPage(pageNumber) {
-          productColumns.forEach(col => {
-            col.style.display = "none";
-            col.querySelector(".product-card").classList.remove("show");
-          });
-
-          const start = (pageNumber - 1) * productsPerPage;
-          const end = start + productsPerPage;
-
-          filteredProducts.slice(start, end).forEach((product, index) => {
-            product.style.display = "block";
-
-            // Restore wishlist state
-            const productId = product.dataset.id;
-            const icon = product.querySelector(".wishlist-btn i");
-            const exists = wishlist.find(item => item.id === productId);
-
-            if (exists) {
-              icon.classList.remove("bi-heart");
-              icon.classList.add("bi-heart-fill");
-            } else {
-              icon.classList.remove("bi-heart-fill");
-              icon.classList.add("bi-heart");
-            }
-
-            setTimeout(() => {
-              product.querySelector(".product-card").classList.add("show");
-            }, index * 80);
-          });
-
-          document.querySelectorAll(".page-item").forEach(item => {
-            item.classList.remove("active");
-          });
-
-          const current = document.querySelectorAll(".page-item")[pageNumber - 1];
-          if (current) current.classList.add("active");
-        }
-
-        // Event Listeners
-        [...priceFilters, ...categoryFilters, ...sizeFilters].forEach(cb =>
-          cb.addEventListener("change", applyFilters)
-        );
-
-        sortSelect.addEventListener("change", applyFilters);
-
-        clearBtn.addEventListener("click", () => {
-          [...priceFilters, ...categoryFilters, ...sizeFilters].forEach(cb =>
-            cb.checked = false
-          );
-          sortSelect.value = "";
-          filteredProducts = [...productColumns];
-          updatePagination();
-          showPage(1);
+          searchTimeout = setTimeout(() => {
+            triggerSearch(query);
+          }, 300);
         });
 
-        // Initial Load
-        updateWishlistCount();
-        updateCartCount();
+        // Handle enter key
+        searchInputNav.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const query = this.value.trim();
+            if (query.length >= 2) {
+              triggerSearch(query);
+            }
+          }
+        });
+      }
 
-        // Set initial wishlist states
-        productColumns.forEach(product => {
+      // ========== MOBILE LIVE SEARCH ==========
+      if (searchInputNavMobile) {
+
+        searchInputNavMobile.addEventListener('input', function () {
+          clearTimeout(searchTimeout);
+          const query = this.value.trim();
+
+          if (query.length < 2) {
+            searchResultsGrid.classList.remove('show');
+            return;
+          }
+
+          searchTimeout = setTimeout(() => {
+            triggerSearch(query);
+          }, 300);
+        });
+
+        searchInputNavMobile.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const query = this.value.trim();
+            if (query.length >= 2) {
+              triggerSearch(query);
+            }
+          }
+        });
+
+      }
+
+      // Toggle Wishlist Function
+      function toggleWishlist(productCol) {
+        const productId = productCol.dataset.id;
+        const icon = productCol.querySelector(".wishlist-btn i");
+
+        const productData = {
+          id: productId,
+          name: productCol.querySelector("h6").innerText,
+          price: productCol.dataset.price,
+          oldPrice: productCol.dataset.oldPrice,
+          image: productCol.querySelector("img").getAttribute("src")
+        };
+
+        const existingIndex = wishlist.findIndex(p => p.id === productId);
+
+        if (existingIndex !== -1) {
+          wishlist.splice(existingIndex, 1);
+          icon.classList.remove("bi-heart-fill");
+          icon.classList.add("bi-heart");
+        } else {
+          wishlist.push(productData);
+          icon.classList.remove("bi-heart");
+          icon.classList.add("bi-heart-fill");
+        }
+
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        updateWishlistCount();
+        window.dispatchEvent(new Event('wishlistUpdated'));
+      }
+
+      // Add to cart function
+      function addToCart(productCol) {
+        const productId = productCol.dataset.id;
+        const productData = {
+          id: productId,
+          name: productCol.querySelector("h6").innerText,
+          price: parseInt(productCol.dataset.price),
+          oldPrice: parseInt(productCol.dataset.oldPrice),
+          image: productCol.querySelector("img").getAttribute("src"),
+          quantity: 1
+        };
+
+        const existingItem = cart.find(item => item.id === productId);
+
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push(productData);
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        showToast(`${productData.name} added to cart!`);
+      }
+
+      // Direct click handler for wishlist buttons
+      document.querySelectorAll(".wishlist-btn").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const productCol = this.closest(".product-col");
+          if (productCol) {
+            toggleWishlist(productCol);
+          }
+        });
+      });
+
+      // Add click handlers for Add to Cart buttons
+      document.querySelectorAll(".add-cart-btn").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const productCol = this.closest(".product-col");
+          if (productCol) {
+            addToCart(productCol);
+          }
+        });
+      });
+
+      // Product card click to open detail page
+      document.querySelectorAll(".product-card").forEach(card => {
+        card.addEventListener("click", function (e) {
+          if (e.target.closest(".wishlist-btn") || e.target.closest(".add-cart-btn")) {
+            return;
+          }
+
+          const productCol = this.closest(".product-col");
+          if (productCol) {
+            const productId = productCol.dataset.id;
+            const productMain = productCol.dataset.main;
+
+            const productData = {
+              id: productId,
+              name: productCol.querySelector("h6").innerText,
+              price: productCol.dataset.price,
+              oldPrice: productCol.dataset.oldPrice,
+              image: productCol.querySelector("img").getAttribute("src"),
+              main: productMain,
+              category: productCol.dataset.category,
+              size: productCol.dataset.size,
+              description: getProductDescription(productCol.dataset.category)
+            };
+
+            localStorage.setItem("currentProduct", JSON.stringify(productData));
+            window.location.href = `product-detail.html?id=${productId}`;
+          }
+        });
+      });
+
+      // Helper function for product descriptions
+      function getProductDescription(category) {
+        const descriptions = {
+          blazer: "A meticulously crafted blazer that embodies sophistication. Made from premium fabric with perfect tailoring for a confident silhouette.",
+          shirt: "Classic shirt designed for comfort and style. Features high-quality fabric and attention to detail in every stitch.",
+          trousers: "Elegant trousers that combine comfort with style. Perfect for both formal and casual occasions.",
+          outerwear: "Luxuriously soft outerwear made from premium materials. Provides warmth without compromising on style.",
+          knitwear: "Premium knitwear crafted for comfort and elegance. Perfect for layering or wearing on its own."
+        };
+        return descriptions[category] || "Premium quality product from Auren's exclusive collection.";
+      }
+
+      // Apply Filters Function
+      function applyFilters() {
+        const selectedPrices = [...priceFilters].filter(cb => cb.checked).map(cb => cb.value);
+        const selectedCategories = [...categoryFilters].filter(cb => cb.checked).map(cb => cb.value);
+        const selectedSizes = [...sizeFilters].filter(cb => cb.checked).map(cb => cb.value);
+
+        filteredProducts = [...productColumns].filter(product => {
+          const price = parseInt(product.dataset.price);
+          const category = product.dataset.category;
+          const sizes = product.dataset.size ? product.dataset.size.split(",") : [];
+
+          const priceMatch = selectedPrices.length === 0 || selectedPrices.some(range => {
+            const [min, max] = range.split("-").map(Number);
+            return price >= min && price <= max;
+          });
+
+          const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(category);
+
+          const sizeMatch = selectedSizes.length === 0 || selectedSizes.some(size => sizes.includes(size));
+
+          return priceMatch && categoryMatch && sizeMatch;
+        });
+
+        if (filteredProducts.length === 0) {
+          productColumns.forEach(col => col.style.display = "none");
+          document.querySelector(".pagination").innerHTML = "";
+          if (!document.getElementById("no-products")) {
+            productContainer.insertAdjacentHTML(
+              "beforeend",
+              "<p id='no-products' class='text-center py-5 w-100'>No products found.</p>"
+            );
+          }
+          return;
+        }
+
+        const noMsg = document.getElementById("no-products");
+        if (noMsg) noMsg.remove();
+
+        applySorting();
+        updatePagination();
+        showPage(1);
+      }
+
+      // Apply Sorting
+      function applySorting() {
+        const sortValue = sortSelect.value;
+
+        if (sortValue === "low-high") {
+          filteredProducts.sort((a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
+        }
+
+        if (sortValue === "high-low") {
+          filteredProducts.sort((a, b) => parseInt(b.dataset.price) - parseInt(a.dataset.price));
+        }
+      }
+
+      // Update Pagination
+      function updatePagination() {
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+        const pagination = document.querySelector(".pagination");
+        pagination.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+          const li = document.createElement("li");
+          li.classList.add("page-item");
+          if (i === 1) li.classList.add("active");
+
+          const a = document.createElement("a");
+          a.classList.add("page-link");
+          a.href = "#";
+          a.innerText = i;
+
+          a.addEventListener("click", function (e) {
+            e.preventDefault();
+            showPage(i);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+
+          li.appendChild(a);
+          pagination.appendChild(li);
+        }
+      }
+
+      // Show Page
+      function showPage(pageNumber) {
+        productColumns.forEach(col => {
+          col.style.display = "none";
+          col.querySelector(".product-card").classList.remove("show");
+        });
+
+        const start = (pageNumber - 1) * productsPerPage;
+        const end = start + productsPerPage;
+
+        filteredProducts.slice(start, end).forEach((product, index) => {
+          product.style.display = "block";
+
+          // Restore wishlist state
           const productId = product.dataset.id;
           const icon = product.querySelector(".wishlist-btn i");
           const exists = wishlist.find(item => item.id === productId);
@@ -1665,14 +1845,62 @@
           if (exists) {
             icon.classList.remove("bi-heart");
             icon.classList.add("bi-heart-fill");
+          } else {
+            icon.classList.remove("bi-heart-fill");
+            icon.classList.add("bi-heart");
           }
+
+          setTimeout(() => {
+            product.querySelector(".product-card").classList.add("show");
+          }, index * 80);
         });
 
+        document.querySelectorAll(".page-item").forEach(item => {
+          item.classList.remove("active");
+        });
+
+        const current = document.querySelectorAll(".page-item")[pageNumber - 1];
+        if (current) current.classList.add("active");
+      }
+
+      // Event Listeners
+      [...priceFilters, ...categoryFilters, ...sizeFilters].forEach(cb =>
+        cb.addEventListener("change", applyFilters)
+      );
+
+      sortSelect.addEventListener("change", applyFilters);
+
+      clearBtn.addEventListener("click", () => {
+        [...priceFilters, ...categoryFilters, ...sizeFilters].forEach(cb =>
+          cb.checked = false
+        );
+        sortSelect.value = "";
+        filteredProducts = [...productColumns];
         updatePagination();
         showPage(1);
       });
-    </script>
 
-  </body>
+      // Initial Load
+      updateWishlistCount();
+      updateCartCount();
 
-  </html>
+      // Set initial wishlist states
+      productColumns.forEach(product => {
+        const productId = product.dataset.id;
+        const icon = product.querySelector(".wishlist-btn i");
+        const exists = wishlist.find(item => item.id === productId);
+
+        if (exists) {
+          icon.classList.remove("bi-heart");
+          icon.classList.add("bi-heart-fill");
+        }
+      });
+
+      updatePagination();
+      showPage(1);
+    });
+  </script>
+
+</body>
+
+</html>
