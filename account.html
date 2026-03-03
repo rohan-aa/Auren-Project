@@ -5,10 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Account | Auren</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <!-- Fix: Use correct Font Awesome version -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
     :root {
       --soft-gold: #c4a66f;
@@ -24,9 +31,14 @@
       font-family: 'Inter', sans-serif;
     }
 
+    .account-section {
+      padding: 60px 0;
+      min-height: 70vh;
+    }
+
     .account-wrapper {
       max-width: 500px;
-      margin: 60px auto;
+      margin: 0 auto;
       background: white;
       padding: 40px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
@@ -49,11 +61,30 @@
       color: var(--stone-gray);
       font-weight: 500;
       letter-spacing: 1px;
+      position: relative;
+    }
+
+    .account-tab::after {
+      content: "";
+      position: absolute;
+      bottom: -21px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--soft-gold);
+      transition: width 0.3s ease;
+    }
+
+    .account-tab:hover {
+      color: var(--soft-gold);
     }
 
     .account-tab.active {
       color: var(--soft-gold);
-      border-bottom: 2px solid var(--soft-gold);
+    }
+
+    .account-tab.active::after {
+      width: 100%;
     }
 
     .account-form {
@@ -90,30 +121,50 @@
       border: 1px solid var(--warm-sand);
       font-size: 14px;
       transition: all 0.3s ease;
+      background: var(--ivory-mist);
     }
 
     .form-group input:focus {
       outline: none;
       border-color: var(--soft-gold);
       box-shadow: 0 0 0 2px rgba(196, 166, 111, 0.1);
+      background: white;
     }
 
     .account-btn {
-      width: 100%;
-      padding: 14px;
-      background: var(--black-graphite);
-      color: white;
-      border: none;      font-size: 14px;
+      position: relative;
+      background: transparent;
+      border: 1px solid var(--black-graphite);
+      color: var(--black-graphite);
+      padding: 14px 30px;
+      font-size: 0.9rem;
       letter-spacing: 1px;
       text-transform: uppercase;
+      overflow: hidden;
+      display: inline-block;
+      z-index: 0;
+      transition: color 0.3s ease, border-color 0.3s ease;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 20px;
+      width: 100%;
+    }
+
+    .account-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--deep-olive);
+      transform: translateY(100%);
+      transition: transform 0.35s ease;
+      z-index: -1;
+    }
+
+    .account-btn:hover::before {
+      transform: translateY(0%);
     }
 
     .account-btn:hover {
-      background: var(--soft-gold);
-      color: var(--black-graphite);
+      color: var(--ivory-mist);
+      border-color: var(--deep-olive);
     }
 
     .forgot-password {
@@ -125,6 +176,7 @@
       color: var(--stone-gray);
       font-size: 12px;
       text-decoration: none;
+      transition: color 0.3s ease;
     }
 
     .forgot-password a:hover {
@@ -184,6 +236,7 @@
       background: var(--soft-gold);
       border-color: var(--soft-gold);
       color: white;
+      transform: translateY(-3px);
     }
 
     .toast-notification {
@@ -209,115 +262,521 @@
       transform: translateY(0);
       opacity: 1;
     }
+
+    .toast-notification i {
+      color: var(--soft-gold);
+      font-size: 20px;
+    }
+
+    /* Search Bar Animation - From new-in */
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar-wrapper {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: right;
+      width: 0;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .search-bar-wrapper.active {
+      width: 300px;
+      opacity: 1;
+      transform: translateY(-50%) scaleX(1);
+    }
+
+    .search-input-nav {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid var(--soft-gold);
+      font-size: 14px;
+      outline: none;
+      background: white;
+      color: var(--black-graphite);
+    }
+
+    .search-input-nav:focus {
+      border-color: var(--deep-olive);
+    }
+
+    /* Search Results Grid - From new-in */
+    .search-results-grid {
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: var(--ivory-mist);
+      z-index: 9999;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: none;
+      border-bottom: 2px solid var(--soft-gold);
+    }
+
+    .search-results-grid.show {
+      display: block;
+    }
+
+    .search-results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--warm-sand);
+    }
+
+    .search-results-header h3 {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+    }
+
+    .close-search-results {
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--stone-gray);
+      transition: color 0.3s ease;
+    }
+
+    .close-search-results:hover {
+      color: var(--soft-gold);
+    }
+
+    .search-results-count {
+      color: var(--stone-gray);
+      font-size: 14px;
+      margin-left: 15px;
+    }
+
+    .search-product-card {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .search-product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .search-product-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.6s ease;
+    }
+
+    .search-product-card:hover img {
+      transform: scale(1.02);
+    }
+
+    .search-product-info {
+      padding: 12px 0;
+    }
+
+    .search-product-info h6 {
+      margin: 0 0 5px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .search-product-info p {
+      margin: 0;
+      color: var(--soft-gold);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .search-product-info .old-price {
+      text-decoration: line-through;
+      color: var(--stone-gray);
+      font-size: 12px;
+      margin-left: 6px;
+      font-weight: 400;
+    }
+
+    .search-product-info .discount-badge {
+      background: var(--soft-gold);
+      color: var(--black-graphite);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    /* Mobile responsive account */
+    @media (max-width: 768px) {
+      .account-section {
+        padding: 40px 0;
+      }
+
+      .account-wrapper {
+        margin: 0 20px;
+        padding: 30px 20px;
+      }
+
+      .form-title {
+        font-size: 20px;
+      }
+
+      .toast-notification {
+        left: 30px;
+        right: 30px;
+        text-align: center;
+      }
+
+      .search-results-grid {
+        padding: 20px;
+      }
+
+      .search-bar-wrapper.active {
+        width: 200px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .account-tabs {
+        gap: 10px;
+      }
+
+      .account-tab {
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      .account-wrapper {
+        padding: 25px 15px;
+      }
+
+      .form-group input {
+        padding: 10px 14px;
+      }
+
+      .social-icons {
+        gap: 15px;
+      }
+
+      .social-icons i {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background: var(--ivory-mist);
+        padding: 20px 0;
+      }
+
+      .navbar-nav .nav-link {
+        font-size: 16px;
+        letter-spacing: 1px;
+      }
+
+      .navbar-nav {
+        gap: 0 !important;
+      }
+
+      .navbar {
+        padding: 12px 0;
+      }
+
+      .auren-navbar .container-fluid {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .mobile-search input {
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 13px;
+        border: 1px solid var(--soft-gold);
+        outline: none;
+        border-radius: 30px;
+      }
+
+      .navbar-brand {
+        padding-left: 0 !important;
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 auren-navbar">
-    <div class="container-fluid px-5">
-      <a class="navbar-brand fw-bold pe-5" href="index.html">AUREN</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#aurenNavbar">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-start" id="aurenNavbar">
-        <ul class="navbar-nav gap-4">
+  <!-- Updated Navbar - Exactly like new-in page -->
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top py-3 auren-navbar">
+    <div class="container-fluid px-lg-5 px-3">
+
+      <!-- MOBILE NAV ROW -->
+      <div class="d-flex align-items-center justify-content-between w-100 d-lg-none">
+
+        <!-- LEFT -->
+        <div class="d-flex align-items-center gap-3">
+          <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#aurenNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <a class="navbar-brand m-0 fw-bold" href="index.html">AUREN</a>
+        </div>
+
+        <!-- CENTER SEARCH -->
+        <div class="mobile-search flex-grow-1 px-3">
+          <input type="text" class="search-input-nav text-center" id="searchInputNavMobile"
+            placeholder="Search products...">
+        </div>
+
+        <!-- RIGHT -->
+        <div class="d-flex align-items-center gap-3">
+          <a href="wishlist.html" class="text-dark position-relative">
+            <i class="bi bi-heart fs-5"></i>
+            <span class="wishlist-badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px; padding: 2px 6px;">0</span>
+          </a>
+
+          <a href="cart.html" class="text-dark position-relative">
+            <i class="fa-solid fa-bag-shopping fs-5"></i>
+            <span class="cart-badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px; padding: 2px 6px;">0</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- DESKTOP LOGO -->
+      <a class="navbar-brand fw-bold d-none d-lg-block px-3 px-md-4 px-lg-5" href="index.html">AUREN</a>
+
+      <!-- COLLAPSE MENU -->
+      <div class="collapse navbar-collapse justify-content-lg-between mt-4 mt-lg-0" id="aurenNavbar">
+
+        <ul class="navbar-nav text-center text-lg-start gap-lg-4">
           <li class="nav-item"><a class="nav-link" href="women.html">Women</a></li>
           <li class="nav-item"><a class="nav-link" href="men.html">Men</a></li>
           <li class="nav-item"><a class="nav-link" href="accessories.html">Accessories</a></li>
           <li class="nav-item"><a class="nav-link" href="newin.html">New In</a></li>
           <li class="nav-item"><a class="nav-link" href="sale.html">Sale</a></li>
         </ul>
-      </div>
-      <div class="d-flex align-items-center gap-4">
-        <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
-        <a href="account.html" class="text-dark">
-          <i class="fa-regular fa-user" style="cursor: pointer;"></i>
-        </a>
-        <a href="wishlist.html" class="position-relative text-dark">
-          <i class="bi bi-heart fs-5"></i>
-          <span class="wishlist-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">0</span>
-        </a>
-        <a href="cart.html" class="position-relative text-dark">
-          <i class="fa-solid fa-bag-shopping fs-5"></i>
-          <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px;">0</span>
-        </a>
+
+        <!-- Desktop Icons -->
+        <div class="d-none d-lg-flex align-items-center gap-4">
+
+          <div class="search-container position-relative">
+            <i class="fa-solid fa-magnifying-glass" id="searchIcon" style="cursor: pointer;"></i>
+            <div class="search-bar-wrapper" id="searchBarWrapper">
+              <input type="text" class="search-input-nav" id="searchInputNav" placeholder="Search products...">
+            </div>
+          </div>
+
+          <a href="account.html" class="text-dark">
+            <i class="fa-regular fa-user"></i>
+          </a>
+
+          <a href="wishlist.html" class="position-relative text-dark">
+            <i class="bi bi-heart fs-5"></i>
+            <span class="wishlist-badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px; padding: 2px 6px;">0</span>
+          </a>
+
+          <a href="cart.html" class="position-relative text-dark">
+            <i class="fa-solid fa-bag-shopping fs-5"></i>
+            <span class="cart-badge rounded-pill position-absolute top-0 start-100 translate-middle"
+              style="background: var(--soft-gold); color: var(--black-graphite); font-size:10px; padding: 2px 6px;">0</span>
+          </a>
+
+        </div>
+
       </div>
     </div>
   </nav>
 
-  <main>
-    <div class="account-wrapper">
-      <div class="account-tabs">
-        <div class="account-tab active" data-tab="login">Login</div>
-        <div class="account-tab" data-tab="register">Register</div>
+  <!-- Search Results Grid - From new-in -->
+  <div class="search-results-grid" id="searchResultsGrid">
+    <div class="container">
+      <div class="search-results-header">
+        <div>
+          <h3>Search Results</h3>
+          <span class="search-results-count" id="searchResultsCount">0 products found</span>
+        </div>
+        <span class="close-search-results" id="closeSearchResults">&times;</span>
       </div>
+      <div class="row g-4" id="searchResultsContainer">
+        <!-- Search results will be populated here -->
+      </div>
+    </div>
+  </div>
 
-      <!-- Login Form -->
-      <div class="account-form active" id="loginForm">
-        <h2 class="form-title">Welcome Back</h2>
-        <form id="loginFormElement">
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" placeholder="Enter your email" required>
+  <main>
+    <section class="account-section">
+      <div class="container">
+        <div class="account-wrapper">
+          <div class="account-tabs">
+            <div class="account-tab active" data-tab="login">Login</div>
+            <div class="account-tab" data-tab="register">Register</div>
           </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" placeholder="Enter your password" required>
+
+          <!-- Login Form -->
+          <div class="account-form active" id="loginForm">
+            <h2 class="form-title">Welcome Back</h2>
+            <form id="loginFormElement">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+              </div>
+              <div class="forgot-password">
+                <a href="#" id="forgotPassword">Forgot password?</a>
+              </div>
+              <button type="submit" class="account-btn">Login</button>
+            </form>
+            <div class="social-login">
+              <p>Or continue with</p>
+              <div class="social-icons">
+                <i class="fab fa-google" data-social="google"></i>
+                <i class="fab fa-facebook-f" data-social="facebook"></i>
+                <i class="fab fa-apple" data-social="apple"></i>
+              </div>
+            </div>
           </div>
-          <div class="forgot-password">
-            <a href="#">Forgot password?</a>
-          </div>
-          <button type="submit" class="account-btn">Login</button>
-        </form>
-        <div class="social-login">
-          <p>Or continue with</p>
-          <div class="social-icons">
-            <i class="fab fa-google"></i>
-            <i class="fab fa-facebook-f"></i>
-            <i class="fab fa-apple"></i>
+
+          <!-- Register Form -->
+          <div class="account-form" id="registerForm">
+            <h2 class="form-title">Create Account</h2>
+            <form id="registerFormElement">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="registerName" placeholder="Enter your full name" required>
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email" required>
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="registerPassword" placeholder="Create a password" required>
+              </div>
+              <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+              </div>
+              <button type="submit" class="account-btn">Create Account</button>
+            </form>
+            <div class="social-login">
+              <p>Or sign up with</p>
+              <div class="social-icons">
+                <i class="fab fa-google" data-social="google"></i>
+                <i class="fab fa-facebook-f" data-social="facebook"></i>
+                <i class="fab fa-apple" data-social="apple"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
+  </main>
 
-      <!-- Register Form -->
-      <div class="account-form" id="registerForm">
-        <h2 class="form-title">Create Account</h2>
-        <form id="registerFormElement">
-          <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" placeholder="Enter your full name" required>
+  <!-- Footer - Same as new-in -->
+  <footer class="auren-footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row gy-5">
+          <div class="col-lg-4">
+            <h5 class="footer-logo">Auren</h5>
+            <p class="footer-description">
+              Crafted with intention. Designed for quiet confidence.
+            </p>
           </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" placeholder="Enter your email" required>
+          <div class="col-6 col-lg-2">
+            <h6 class="footer-heading">Shop</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="women.html">Women</a></li>
+              <li><a href="men.html">Men</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="newin.html">New In</a></li>
+            </ul>
           </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" placeholder="Create a password" required>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Support</h6>
+            <ul class="footer-links list list-unstyled">
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="#">Shipping & Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
           </div>
-          <div class="form-group">
-            <label>Confirm Password</label>
-            <input type="password" placeholder="Confirm your password" required>
-          </div>
-          <button type="submit" class="account-btn">Create Account</button>
-        </form>
-        <div class="social-login">
-          <p>Or sign up with</p>
-          <div class="social-icons">
-            <i class="fab fa-google"></i>
-            <i class="fab fa-facebook-f"></i>
-            <i class="fab fa-apple"></i>
+          <div class="col-6 col-lg-3">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="footer-links list-unstyled">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Sustainability</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-  </main>
+    <div class="footer-bottom text-center">
+      <div class="container">
+        <p class="mb-0">&copy; 2026 AUREN. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Tab switching
+      // ================== GLOBAL VARIABLES ==================
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const allProducts = JSON.parse(localStorage.getItem("allProducts")) || [];
+
+      // ================== HELPER FUNCTIONS ==================
+      function updateCartCount() {
+        cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll(".cart-badge").forEach(b => b.textContent = totalQty);
+      }
+
+      function updateWishlistCount() {
+        wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        document.querySelectorAll(".wishlist-badge").forEach(b => b.textContent = wishlist.length);
+      }
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className = "toast-notification";
+        toast.innerHTML = `<i class="bi bi-check-circle-fill"></i><span>${message}</span>`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.classList.add("show"), 100);
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      // ================== TAB SWITCHING ==================
       const tabs = document.querySelectorAll('.account-tab');
       const forms = document.querySelectorAll('.account-form');
 
@@ -335,46 +794,188 @@
         });
       });
 
-      // Form submissions
-      document.getElementById('loginFormElement').addEventListener('submit', function(e) {
-        e.preventDefault();
-        showToast('Login functionality coming soon!');
-      });
-
-      document.getElementById('registerFormElement').addEventListener('submit', function(e) {
-        e.preventDefault();
-        showToast('Registration functionality coming soon!');
-      });
-
-      // Toast function
-      function showToast(message) {
-        const toast = document.createElement("div");
-        toast.className = "toast-notification";
-        toast.innerHTML = `
-          <i class="bi bi-check-circle-fill"></i>
-          <span>${message}</span>
-        `;
-        document.body.appendChild(toast);
-
-        setTimeout(() => toast.classList.add("show"), 100);
-        setTimeout(() => {
-          toast.classList.remove("show");
-          setTimeout(() => toast.remove(), 300);
-        }, 3000);
+      // ================== FORM SUBMISSIONS ==================
+      // Login form
+      const loginForm = document.getElementById('loginFormElement');
+      if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const email = document.getElementById('loginEmail')?.value;
+          const password = document.getElementById('loginPassword')?.value;
+          
+          // Here you would typically send this to a server
+          console.log('Login attempt:', { email, password });
+          
+          showToast('Login functionality coming soon!');
+          this.reset();
+        });
       }
 
-      // Update counts
-      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      // Register form
+      const registerForm = document.getElementById('registerFormElement');
+      if (registerForm) {
+        registerForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const name = document.getElementById('registerName')?.value;
+          const email = document.getElementById('registerEmail')?.value;
+          const password = document.getElementById('registerPassword')?.value;
+          const confirmPassword = document.getElementById('registerConfirmPassword')?.value;
+          
+          // Simple validation
+          if (password !== confirmPassword) {
+            showToast('Passwords do not match!');
+            return;
+          }
+          
+          // Here you would typically send this to a server
+          console.log('Registration attempt:', { name, email, password });
+          
+          showToast('Registration functionality coming soon!');
+          this.reset();
+        });
+      }
 
-      document.querySelectorAll(".wishlist-count").forEach(el => {
-        el.textContent = wishlist.length;
+      // Forgot password
+      const forgotLink = document.getElementById('forgotPassword');
+      if (forgotLink) {
+        forgotLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          showToast('Password reset functionality coming soon!');
+        });
+      }
+
+      // Social login buttons
+      document.querySelectorAll('.social-icons i').forEach(icon => {
+        icon.addEventListener('click', function() {
+          const social = this.dataset.social || 'social';
+          showToast(`${social.charAt(0).toUpperCase() + social.slice(1)} login coming soon!`);
+        });
       });
-      
-      document.querySelectorAll(".cart-count").forEach(el => {
-        el.textContent = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+      // ================== SEARCH FUNCTIONALITY ==================
+      const searchIcon = document.getElementById('searchIcon');
+      const searchBarWrapper = document.getElementById('searchBarWrapper');
+      const searchInputNav = document.getElementById('searchInputNav');
+      const searchInputNavMobile = document.getElementById('searchInputNavMobile');
+      const searchResultsGrid = document.getElementById('searchResultsGrid');
+      const searchResultsContainer = document.getElementById('searchResultsContainer');
+      const searchResultsCount = document.getElementById('searchResultsCount');
+      const closeSearchResults = document.getElementById('closeSearchResults');
+
+      let searchTimeout;
+
+      function triggerSearch(query) {
+        const results = allProducts.filter(product =>
+          product.name.toLowerCase().includes(query.toLowerCase()) ||
+          (product.category?.toLowerCase() || "").includes(query.toLowerCase())
+        );
+
+        if (searchResultsCount) searchResultsCount.textContent = `${results.length} product${results.length !== 1 ? 's' : ''} found`;
+
+        if (searchResultsContainer) {
+          if (results.length === 0) {
+            searchResultsContainer.innerHTML = '<div class="col-12 text-center py-5"><p style="color: var(--stone-gray);">No products found matching your search.</p></div>';
+          } else {
+            searchResultsContainer.innerHTML = results.map(product => {
+              const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+              return `
+                <div class="col-md-6 col-lg-3">
+                  <div class="search-product-card" data-id="${product.id}">
+                    <img src="${product.image}" alt="${product.name}" class="img-fluid">
+                    <div class="search-product-info">
+                      <h6>${product.name}</h6>
+                      <p>
+                        ₹${product.price.toLocaleString()}
+                        <span class="old-price">₹${product.oldPrice.toLocaleString()}</span>
+                        <span class="discount-badge">${discount}% OFF</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('');
+
+            document.querySelectorAll('.search-product-card').forEach(card => {
+              card.addEventListener('click', function () {
+                const productId = this.dataset.id;
+                const selectedProduct = allProducts.find(p => p.id === productId);
+                localStorage.setItem("currentProduct", JSON.stringify(selectedProduct));
+                window.location.href = `product-detail.html?id=${productId}`;
+              });
+            });
+          }
+
+          if (searchResultsGrid) searchResultsGrid.classList.add('show');
+        }
+      }
+
+      // Search event listeners
+      if (searchIcon) {
+        searchIcon.addEventListener("click", e => {
+          e.stopPropagation();
+          searchBarWrapper?.classList.toggle("active");
+          if (searchBarWrapper?.classList.contains("active")) {
+            searchInputNav?.focus();
+          }
+        });
+      }
+
+      document.addEventListener('click', (e) => {
+        if (searchBarWrapper && !searchBarWrapper.contains(e.target) && !searchIcon?.contains(e.target)) {
+          searchBarWrapper.classList.remove('active');
+        }
+      });
+
+      if (closeSearchResults) {
+        closeSearchResults.addEventListener('click', () => {
+          searchResultsGrid?.classList.remove('show');
+          searchBarWrapper?.classList.remove('active');
+          if (searchInputNav) searchInputNav.value = '';
+          if (searchInputNavMobile) searchInputNavMobile.value = '';
+        });
+      }
+
+      if (searchInputNav) {
+        searchInputNav.addEventListener('input', function () {
+          clearTimeout(searchTimeout);
+          const query = this.value.trim();
+          if (query.length < 2) {
+            searchResultsGrid?.classList.remove('show');
+            return;
+          }
+          searchTimeout = setTimeout(() => triggerSearch(query), 300);
+        });
+      }
+
+      if (searchInputNavMobile) {
+        searchInputNavMobile.addEventListener('input', function () {
+          clearTimeout(searchTimeout);
+          const query = this.value.trim();
+          if (query.length < 2) {
+            searchResultsGrid?.classList.remove('show');
+            return;
+          }
+          searchTimeout = setTimeout(() => triggerSearch(query), 300);
+        });
+      }
+
+      // ================== INITIAL LOAD ==================
+      updateCartCount();
+      updateWishlistCount();
+
+      // Listen for updates from other pages
+      window.addEventListener('cartUpdated', () => {
+        cart = JSON.parse(localStorage.getItem("cart")) || [];
+        updateCartCount();
+      });
+
+      window.addEventListener('wishlistUpdated', () => {
+        wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        updateWishlistCount();
       });
     });
   </script>
 </body>
+
 </html>
