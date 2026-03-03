@@ -339,175 +339,122 @@
   </footer>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // Get wishlist and cart from localStorage
+    document.addEventListener("DOMContentLoaded", function () {
       let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const allProducts = JSON.parse(localStorage.getItem("allProducts")) || [];
+      const container = document.getElementById("wishlist-container");
 
-      // Update wishlist count in navbar
+      // Update counts
       function updateWishlistCount() {
-        document.querySelectorAll(".wishlist-count").forEach(el => {
-          el.textContent = wishlist.length;
-        });
+        document.querySelectorAll(".wishlist-count").forEach(el => el.textContent = wishlist.length);
       }
 
-      // Update cart count in navbar
       function updateCartCount() {
-        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        document.querySelectorAll(".cart-count").forEach(el => {
-          el.textContent = totalItems;
-        });
+        const total = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        document.querySelectorAll(".cart-count").forEach(el => el.textContent = total);
       }
 
-      // Toast notification
-      function showToast(message) {
+      // Toast
+      function showToast(msg) {
         const toast = document.createElement("div");
         toast.className = "toast-notification";
-        toast.innerHTML = `
-          <i class="bi bi-check-circle-fill"></i>
-          <span>${message}</span>
-        `;
+        toast.innerHTML = `<i class="bi bi-check-circle-fill"></i><span>${msg}</span>`;
         document.body.appendChild(toast);
-
-        setTimeout(() => {
-          toast.classList.add("show");
-        }, 100);
-
-        setTimeout(() => {
-          toast.classList.remove("show");
-          setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        setTimeout(() => toast.classList.add("show"), 100);
+        setTimeout(() => { toast.classList.remove("show"); setTimeout(() => toast.remove(), 300); }, 3000);
       }
 
-      // Function to add item to cart
-      function addToCart(productId) {
-        const product = wishlist.find(item => item.id === productId);
-        
-        if (product) {
-          const cartItem = {
-            id: product.id,
-            name: product.name,
-            price: parseInt(product.price),
-            oldPrice: parseInt(product.oldPrice),
-            image: product.image,
-            quantity: 1
-          };
+      // Add to Cart
+      window.addToCart = function (productId) {
+        const product = wishlist.find(p => p.id === productId);
+        if (!product) return;
 
-          const existingItem = cart.find(item => item.id === productId);
-
-          if (existingItem) {
-            existingItem.quantity += 1;
-          } else {
-            cart.push(cartItem);
-          }
-
-          localStorage.setItem("cart", JSON.stringify(cart));
-          updateCartCount();
-          showToast(`${product.name} added to cart!`);
-        }
+        const existing = cart.find(item => item.id === productId);
+        if (existing) existing.quantity += 1;
+        else cart.push({ ...product, quantity: 1 });
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        showToast(`${product.name} added to cart!`);
       }
 
-      // Function to remove item from wishlist
-      function removeFromWishlist(productId) {
-        wishlist = wishlist.filter(item => item.id !== productId);
+      // Remove from wishlist
+      window.removeFromWishlist = function (productId) {
+        wishlist = wishlist.filter(p => p.id !== productId);
         localStorage.setItem("wishlist", JSON.stringify(wishlist));
-        
-        // Update the display
         renderWishlist();
         updateWishlistCount();
         showToast("Item removed from wishlist");
       }
 
-      // Function to open product detail page
+      // Open product detail
       function openProductDetail(productId) {
-        // Try to find the product in allProducts first, then in wishlist
-        let productData = allProducts.find(p => p.id === productId);
-        
-        if (!productData) {
-          // If not found in allProducts, use wishlist data
-          productData = wishlist.find(p => p.id === productId);
-        }
-        
-        if (productData) {
-          localStorage.setItem("currentProduct", JSON.stringify(productData));
-          window.location.href = `product-detail.html?id=${productId}`;
-        }
+        let product = allProducts.find(p => p.id === productId) || wishlist.find(p => p.id === productId);
+        if (!product) return;
+        localStorage.setItem("currentProduct", JSON.stringify(product));
+        window.location.href = `product-detail.html?id=${productId}`;
       }
 
-      // Function to render wishlist items
+      // Render wishlist
       function renderWishlist() {
-        const container = document.getElementById("wishlist-container");
-
         if (wishlist.length === 0) {
           container.innerHTML = `
-            <div class="col-12 text-center py-5">
-              <i class="bi bi-heart" style="font-size: 48px; color: var(--soft-gold);"></i>
-              <p class="mt-3" style="color: var(--stone-gray);">Your wishlist is empty.</p>
-              <a href="sale.html" class="auren-btn-clear mt-3">Continue Shopping</a>
-            </div>
-          `;
+        <div class="col-12 text-center py-5">
+          <i class="bi bi-heart" style="font-size: 48px; color: var(--soft-gold);"></i>
+          <p class="mt-3" style="color: var(--stone-gray);">Your wishlist is empty.</p>
+          <a href="sale.html" class="auren-btn-clear mt-3">Continue Shopping</a>
+        </div>
+      `;
           return;
         }
 
         container.innerHTML = wishlist.map(product => {
-          const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
-          
+          const oldPrice = parseInt(product.oldPrice) || parseInt(product.price);
+          const price = parseInt(product.price) || oldPrice;
+          const discount = oldPrice > price ? Math.round((oldPrice - price) / oldPrice * 100) : 0;
+
           return `
-            <div class="col-md-6 col-lg-3" data-id="${product.id}">
-              <div class="product-card" data-product-id="${product.id}">
-                <div class="product-img">
-                  <img src="${product.image}" alt="${product.name}" class="img-fluid">
-                  <span class="sale-badge">${discount}% OFF</span>
-                  <button class="remove-btn" onclick="event.stopPropagation(); window.removeFromWishlist('${product.id}')">
-                    <i class="bi bi-x"></i>
-                  </button>
-                </div>
-                <div class="product-info">
-                  <h6>${product.name}</h6>
-                  <p>
-                    ₹${parseInt(product.price).toLocaleString()}
-                    <span class="old-price">₹${parseInt(product.oldPrice).toLocaleString()}</span>
-                  </p>
-                  <button class="add-cart-btn" onclick="event.stopPropagation(); window.addToCart('${product.id}')">Add to Cart</button>
-                </div>
-              </div>
+        <div class="col-md-6 col-lg-3" data-id="${product.id}">
+          <div class="product-card" data-product-id="${product.id}">
+            <div class="product-img">
+              <img src="${product.image}" alt="${product.name}" class="img-fluid">
+              ${discount > 0 ? `<span class="sale-badge">${discount}% OFF</span>` : ''}
+              <button class="remove-btn" onclick="event.stopPropagation(); window.removeFromWishlist('${product.id}')">
+                <i class="bi bi-x"></i>
+              </button>
             </div>
-          `;
+            <div class="product-info">
+              <h6>${product.name}</h6>
+              <p>₹${price.toLocaleString()} ${discount > 0 ? `<span class="old-price">₹${oldPrice.toLocaleString()}</span>` : ''}</p>
+              <button class="add-cart-btn" onclick="event.stopPropagation(); window.addToCart('${product.id}')">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      `;
         }).join('');
 
-        // Add click handlers for product cards
+        // Product card click
         document.querySelectorAll('.product-card').forEach(card => {
-          card.addEventListener('click', function(e) {
-            // Don't navigate if clicking on remove button or add to cart button
-            if (e.target.closest('.remove-btn') || e.target.closest('.add-cart-btn')) {
-              return;
-            }
-            
-            const productId = this.closest('[data-id]').dataset.id;
-            openProductDetail(productId);
+          card.addEventListener('click', function (e) {
+            if (e.target.closest('.remove-btn') || e.target.closest('.add-cart-btn')) return;
+            openProductDetail(this.closest('[data-id]').dataset.id);
           });
         });
       }
-
-      // Make functions globally available for inline onclick handlers
-      window.removeFromWishlist = removeFromWishlist;
-      window.addToCart = addToCart;
 
       // Initial render
       renderWishlist();
       updateWishlistCount();
       updateCartCount();
 
-      // Listen for wishlist updates from other pages
-      window.addEventListener('wishlistUpdated', function() {
+      // Listen for updates from other pages
+      window.addEventListener('wishlistUpdated', () => {
         wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
         renderWishlist();
         updateWishlistCount();
       });
 
-      // Listen for cart updates from other pages
-      window.addEventListener('cartUpdated', function() {
+      window.addEventListener('cartUpdated', () => {
         cart = JSON.parse(localStorage.getItem("cart")) || [];
         updateCartCount();
       });
